@@ -1,0 +1,56 @@
+* {
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#inputform-div {
+  grid-area: col1;
+}
+
+#carousel-div {
+  grid-area: col2;
+  position: relative;
+}
+
+.main {
+  display: grid;
+  grid-template-areas: "col1 col2";
+  grid-template-columns: 30% 68%;
+  justify-content: center;
+  grid-column-gap: 2%;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    height: 100px;
+    width: 50px;
+    background-color: #f4f4f4;
+    position: absolute;
+    top: 40%;
+    opacity: 0.3;
+}
+
+.carousel-caption-text {
+  font-size: 5rem;
+  font-family: Satisfy;
+}
+
+.caption-middle {
+  position: absolute;
+  top: 40%;
+}
+
+.caption-top {
+  position: absolute;
+  top:30%;
+}
+
+/* Overrisde bootstrap default color setting */
+.carousel-control-prev-icon {
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c7b95' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+/* Overrisde bootstrap default color setting */
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c7b95' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
