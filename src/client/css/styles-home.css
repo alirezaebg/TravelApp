@@ -1,1 +1,4 @@
-
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Righteous&display=swap');
+/* styles for the home page header section */
+@import "home/header.css";

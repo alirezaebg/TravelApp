@@ -1,0 +1,57 @@
+/* General */
+* {
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background: linear-gradient(0.25turn, #fda77f, #bbeaa6, #fae8c8);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  font-size: 1.2rem;
+  padding: 1% 5%;
+}
+
+.logo {
+  margin-right: auto;
+}
+
+.logo img{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.logo h2 {
+  display: inline-block;
+  font-family: Permanent Marker;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.nav-links li {
+  display: inline-block;
+  padding: 0 5%;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #8105d8;
+}
+
+.search-bar {
+  margin-left: 2%;
+}
+
+.search-text {
+  width: 80%;
+  padding: 0 2%;
+}
