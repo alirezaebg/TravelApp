@@ -6,6 +6,11 @@
 
 #inputform-div {
   grid-area: col1;
+  display: flex;
+  padding: 5%;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: linear-gradient(0deg, #ff9d76, #9de3d0, #e8f9e9);
 }
 
 #carousel-div {
@@ -16,9 +21,8 @@
 .main {
   display: grid;
   grid-template-areas: "col1 col2";
-  grid-template-columns: 30% 68%;
+  grid-template-columns: 30% 70%;
   justify-content: center;
-  grid-column-gap: 2%;
 }
 
 .carousel-control-prev, .carousel-control-next {
@@ -53,4 +57,44 @@
 /* Overrisde bootstrap default color setting */
 .carousel-control-next-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c7b95' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.inputform-title, .destination, .departure, .return {
+  margin: 3% 0;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.select-title {
+  height: 100%;
+  text-align: center;
+  background-color: #216353;
+  color: #fff;
+  padding: 2%;
+  width: 120px;
+  font-size: 1.2rem;
+  border-radius: 5px 0 0 5px;
+}
+
+.input-text {
+  font-size: 1.2rem;
+  border: 2px solid #216353;
+  border-left: none;
+  padding-left: 2%;
+  border-radius: 0 5px 5px 0;
+  width: 250px;
+}
+
+.dropdown {
+  background: none!important;
+  position: absolute;
+  right: 14%;
+  color: #216353;
+  height: 100%;
+}
+
+.fa-caret-down {
+  font-size: 1.5rem;
+  padding: 1%;
 }
