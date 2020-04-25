@@ -46,21 +46,25 @@
     <!-- input form -->
     <div id="inputform-div">
       <div class="inoutform-title">
-        <h3 class="">Pick your itenarary</h3>
+        <h3>Pick your itenarary</h3>
       </div>
       <div class="destination">
-        <h5 class="select-title">Destination</h5>
+        <label class="select-title">Destination</label>
         <input type="text" name="destination" placeholder="City" class="input-text">
       </div>
       <div class="departure">
-        <h5 class="select-title">Departure</h5>
+        <label class="select-title">Departure</label>
         <input type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
         <button class="dropdown"><i class="fas fa-caret-down"></i></button>
       </div>
       <div class="return">
-        <h5 class="select-title">Return</h5>
+        <label class="select-title">Return</label>
         <input type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
         <button class="dropdown"><i class="fas fa-caret-down"></i></button>
+      </div>
+      <div class="add-destination">
+        <button type="button" class="btn btn-lg btn-inputform"><i class="fas fa-plus"></i> Add to list</button>
+        <button type="button" class="btn btn-lg btn-inputform">Look up!</button>
       </div>
 
     </div>
@@ -104,6 +108,18 @@
       <a class="carousel-control-next" href="#carousel-div" role="button" data-slide="next">
         <span class="carousel-control-next-icon"></span>
       </a>
+    </div>
+  </section>
+
+  <!-- Newsletter section -->
+  <section class="newsletter">
+    <div class="newsletter-label">
+      <h4>Subscribe for weekly offers</h4>
+      <p>We will email you our exceptional deals!</p>
+    </div>
+    <div class="newsletter-form">
+      <input type="text" name="email-text" placeholder="Your email" class="email-box">
+      <button type="button" class="btn btn-lg btn-subscribe">Subscribe</button>
     </div>
   </section>
 

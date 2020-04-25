@@ -1,7 +1,5 @@
 * {
-  border: 0;
-  padding: 0;
-  box-sizing: border-box;
+  font-family: IBM Plex Serif;
 }
 
 #inputform-div {
@@ -78,7 +76,7 @@
 }
 
 .input-text {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   border: 2px solid #216353;
   border-left: none;
   padding-left: 2%;
@@ -97,4 +95,28 @@
 .fa-caret-down {
   font-size: 1.5rem;
   padding: 1%;
+}
+
+.btn-inputform {
+  background-color: #522d5b;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-left: 3%;
+  width: 140px;
+}
+
+.btn:hover {
+  color: #f8eeee;
+}
+
+.add-destination {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 11%;
+  margin: 8% 0;
+}
+
+.fa-plus {
+  font-size: 1rem;
 }
