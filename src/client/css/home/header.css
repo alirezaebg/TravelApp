@@ -6,7 +6,8 @@
 }
 
 header {
-  background: linear-gradient(0.25turn, #fda77f, #bbeaa6, #fae8c8);
+  /* background-color: #a3f7bf; */
+  background-color: #e8f9e9;
   display: flex;
   justify-content: flex-end;
   align-items: center;
