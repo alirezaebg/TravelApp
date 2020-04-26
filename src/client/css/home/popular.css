@@ -1,0 +1,62 @@
+
+.popular-destinations {
+  display: flex;
+  flex-direction: column;
+  padding: 2% 7%;
+  align-items: center;
+  background: linear-gradient(0deg, #e8f9e9, #9de3d0, #ff9d76); */
+}
+
+.popular-collage {
+  display: grid;
+  grid-template-areas: "a b c"
+                       "d e f";
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 50px 50px;
+  margin-top: 5%;
+}
+
+.image-r11 {
+  grid-area: a;
+  position: relative;
+}
+
+.image-r12 {
+  grid-area: b;
+  position: relative;
+}
+
+.image-r13 {
+  grid-area: c;
+  position: relative;
+}
+
+.image-r21 {
+  grid-area: d;
+  position: relative;
+}
+
+.image-r22 {
+  grid-area: e;
+  position: relative;
+}
+
+.image-r23 {
+  grid-area: f;
+  position: relative;
+}
+
+.image-tile {
+  width: 100%;
+  height: 100%;
+}
+
+.img-caption {
+  position: absolute;
+  bottom: 0;
+  right: 5%;
+  font-family: Satisfy;
+  color: #fff;
+  font-size: 2rem;
+}
