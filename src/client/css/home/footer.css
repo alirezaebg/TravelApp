@@ -1,0 +1,38 @@
+footer {
+  padding: 1% 7%;
+  background-color: #ff9d76;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3%;
+}
+
+.copyright {
+  text-align: center;
+  font-weight: 500;
+  color: #120136;
+}
+
+.address {
+  margin-left: 5%;
+  font-weight: 500;
+  color: #120136;
+}
+
+.social-links {
+  margin-left: auto;
+  margin-right: 2%;
+  flex-grow: 0.3;
+  text-align: center;
+  color: #120136;
+}
+
+.social-icon {
+  font-size: 1.8rem;
+  margin: 4%;
+}

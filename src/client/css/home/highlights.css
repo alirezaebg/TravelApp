@@ -1,0 +1,26 @@
+.highlights {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10% 7%;
+  background: linear-gradient(0deg, #ff9d76, #9de3d0, #e8f9e9);
+  align-items: center;
+}
+
+.fa-cloud-sun,
+.fa-plane-departure,
+.fa-hotel {
+  font-size: 3rem;
+  color: #522d5b;
+  width: 100px;
+  height: 100px;
+}
+
+.high-icon {
+  text-align: center;
+}
+
+.high-icon p {
+  font-size: 1.5rem;
+  color: #522d5b;
+}
