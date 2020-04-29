@@ -18,6 +18,7 @@ header {
 
 .logo {
   margin-right: auto;
+  cursor: pointer;
 }
 
 .logo img{
@@ -55,4 +56,11 @@ header {
 .search-text {
   width: 80%;
   padding: 0 2%;
+}
+
+/* Classes that are used in dom.js */
+.header-tab {
+  background-color: #b7efcd;
+  transition: 0.5s;
+  margin-top: -1%;
 }

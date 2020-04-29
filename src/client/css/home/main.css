@@ -102,21 +102,74 @@
   color: #fff;
   font-weight: 500;
   font-size: 1.1rem;
-  margin-left: 3%;
-  width: 140px;
+  margin-right: 3%;
+  width: 180px;
 }
 
+/* .btn class is global as it is the same class in newsletter.css */
 .btn:hover {
   color: #f8eeee;
 }
 
+.btn:active, .dropdown:active {
+  transform: translateY(3px);
+}
+
+.btn:focus, .dropdown:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .add-destination {
   display: flex;
-  justify-content: flex-end;
-  padding-right: 11%;
-  margin: 8% 0;
+  justify-content: flex-start;
+  /* padding-right: 10%; */
+  margin: 7% 0;
 }
 
 .fa-plus {
   font-size: 1rem;
+}
+
+/* The following classes apply when user adds a destination to his/her list */
+.listview {
+  /* display: none; */
+  margin-top: 10%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-listview {
+  color: #fff;
+  background-color: #af460f;
+  font-size: 1.2rem;
+  width: 100%;
+  border-radius: 5px;
+  margin-right: 10%;
+}
+
+.btn-listview span {
+  vertical-align: center;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.btn-listview span:after {
+  font-family: FontAwesome;
+  content: '\f0a9';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.btn-listview:hover span {
+  padding-right: 25px;
+}
+
+.btn-listview:hover span:after {
+  opacity: 1;
+  right: 0;
 }
