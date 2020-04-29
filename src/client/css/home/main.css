@@ -133,10 +133,14 @@
 
 /* The following classes apply when user adds a destination to his/her list */
 .listview {
-  /* display: none; */
-  margin-top: 10%;
+  display: none;
+}
+
+.listview-afterAddBtn {
   display: flex;
   justify-content: flex-end;
+  transition: 1s;
+  margin-top: 10%;
 }
 
 .btn-listview {
