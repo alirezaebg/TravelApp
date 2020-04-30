@@ -1,8 +1,9 @@
 //Global variables
 addToListBtn = document.querySelector('.btn-addToList');
+headerTabs = document.querySelectorAll('.nav-links a');
 
-// Change header links animation when hovering over them
-document.querySelectorAll('.nav-links a').forEach(heading => {
+// Change header links appearance when hovering over them
+headerTabs.forEach(heading => {
   //hover over
   heading.addEventListener('mouseover', function() {
     heading.parentElement.classList.add('header-tab');
@@ -18,3 +19,17 @@ addToListBtn.addEventListener('click', function() {
   document.querySelector('#addBtn').classList.remove('listview');
   document.querySelector('#addBtn').classList.add('listview-afterAddBtn', 'fade-in');
 })
+
+//Scroll to section when clicking on the header tabs
+headerTabs.forEach(heading => {
+  heading.addEventListener('click', function(e) {
+    e.preventDefault();
+    const eventId = e.target.getAttribute('href');
+    if (eventId != null && eventId !== '#') {
+      console.log(eventId);
+      document.getElementById(eventId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  });
+});
