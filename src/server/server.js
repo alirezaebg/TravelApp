@@ -36,13 +36,12 @@ app.post('/places', (req, res) => {
   const city = req.body.cityName;
 
   const url = baseUrl + city + key;
-  console.log(url);
 
-  https.get(url, (res) => {
+  https.get(url, (resp) => {
     const {
       statusCode
-    } = res;
-    const contentType = res.headers['content-type'];
+    } = resp;
+    const contentType = resp.headers['content-type'];
 
     let error;
     if (statusCode !== 200) {
@@ -55,19 +54,19 @@ app.post('/places', (req, res) => {
     if (error) {
       console.error(error.message);
       // Consume response data to free up memory
-      res.resume();
+      resp.resume();
       return;
     }
 
-    res.setEncoding('utf8');
+    resp.setEncoding('utf8');
     let rawData = '';
-    res.on('data', (chunk) => {
+    resp.on('data', (chunk) => {
       rawData += chunk;
     });
-    res.on('end', () => {
+    resp.on('end', () => {
       try {
         const parsedData = JSON.parse(rawData);
-        console.log(parsedData);
+        res.send(parsedData);
       } catch (e) {
         console.error(e.message);
       }
