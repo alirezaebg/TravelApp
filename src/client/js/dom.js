@@ -1,5 +1,4 @@
 //Global variables
-const addToListBtn = document.querySelector('.btn-addToList');
 const headerTabs = document.querySelectorAll('.nav-links a');
 
 // Change header links appearance when hovering over them
@@ -12,12 +11,6 @@ headerTabs.forEach(heading => {
   heading.addEventListener('mouseout', function() {
     heading.parentElement.classList.remove('header-tab');
   })
-})
-
-//Appear the "View my list" button after clicking the "+Add to list" button
-addToListBtn.addEventListener('click', function() {
-  document.querySelector('#addBtn').classList.remove('listview');
-  document.querySelector('#addBtn').classList.add('listview-afterAddBtn', 'fade-in');
 })
 
 //Scroll to section when clicking on the header tabs
@@ -37,17 +30,22 @@ headerTabs.forEach(heading => {
 // On click event close the auto complete box for city suggestion
 document.addEventListener("click", function(e) {
   closeAutoList(e.target);
+  closeTravelList(e.target);
 });
 
-// function to close the open autocomplete list
+// function to close the open city-autocomplete list
 function closeAutoList(e) {
-  const elems = document.querySelectorAll(".cityNamesAuto");
-  const cityInputField = document.getElem
-  for (let i = 0; i < elems.length; i++) {
-    if (e != elems[i] && e != document.getElementById('destination-text')) {
-      elems[i].parentNode.removeChild(elems[i]);
+  const elems = $(".cityNamesAuto");
+    if (e != elems && e != $('#destination-text')) {
+        elems.remove();
     }
-  }
+}
+
+// function to close an open travel list
+function closeTravelList(e) {
+    if (e != $('#addBtn')[0] && e != $('#addBtn span')[0]) {
+      $(".travelList").remove();
+    }
 }
 
 // function that opens an autocomplete list when user types a destination and handles if user choses a destination with mouse

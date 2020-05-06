@@ -9,6 +9,9 @@ dotenv.config();
 // intsance of the application
 const app = express();
 
+// project endpoint to store list of user destinations if they are added to his list
+let destinationArray = [];
+
 
 // use dependencies
 app.use(bodyParser.urlencoded({extended: false}));
@@ -29,7 +32,7 @@ app.get('/', function(req, res) {
   res.sendFile('/client/views/index.html', {root: __dirname + '/..'});
 })
 
-// post request to /places route which is used for google places api
+// post request to '/places' route which is used for google places api
 app.post('/places', (req, res) => {
   const key = process.env.placesApiKey;
   const baseUrl = process.env.placesApiUrl;
@@ -75,4 +78,18 @@ app.post('/places', (req, res) => {
     console.error(`Got error: ${e.message}`);
   });
 
+})
+
+// post request to '/listitem' route to store user's traval info
+app.post('/listitem', (req, res) => {
+  const inp = {
+    city: req.body.dest,
+  }
+  destinationArray.push(inp);
+  console.log(inp);
+})
+
+// get request from '/listitems' route to retrieve user's travel info
+app.get('/listitem', (req, res) => {
+  res.send(destinationArray);
 })

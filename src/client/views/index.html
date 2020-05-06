@@ -57,19 +57,17 @@
       <div class="departure">
         <label class="select-title">Departure</label>
         <input id="flatpickrDept" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
-        <!-- <button class="dropdown"><i class="fas fa-caret-down"></i></button> -->
       </div>
       <div class="return">
         <label class="select-title">Return</label>
         <input id="flatpickrRet" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
-        <!-- <button class="dropdown"><i class="fas fa-caret-down"></i></button> -->
       </div>
       <div class="add-destination">
         <button type="button" class="btn btn-lg btn-inputform btn-addToList"><i class="fas fa-plus"></i> Add to list</button>
-        <button type="button" class="btn btn-lg btn-inputform btn-lookUp">Look up!</button>
+        <button type="button" class="btn btn-lg btn-inputform btn-lookUp">Travel info >></button>
       </div>
-      <div id="addBtn" class="listview">
-        <button type="button" class="btn btn-listview"><span>View my list </i></span> </button>
+      <div id="addBtnDiv" class="listview">
+        <button id="addBtn" type="button" class="btn btn-listview"><span>View my list </i></span> </button>
       </div>
 
     </div>
@@ -221,6 +219,8 @@
   <!-- Flat datepicker -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="../js/datepicker.js"></script>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
 </body>

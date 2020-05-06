@@ -84,19 +84,6 @@
   width: 250px;
 }
 
-.dropdown {
-  background: none!important;
-  position: absolute;
-  right: 14%;
-  color: #216353;
-  height: 100%;
-}
-
-.fa-caret-down {
-  font-size: 1.5rem;
-  padding: 1%;
-}
-
 .btn-inputform {
   background-color: #522d5b;
   color: #fff;
@@ -123,7 +110,6 @@
 .add-destination {
   display: flex;
   justify-content: flex-start;
-  /* padding-right: 10%; */
   margin: 7% 0;
 }
 
@@ -137,10 +123,13 @@
 }
 
 .listview-afterAddBtn {
+  position: relative;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   transition: 1s;
   margin-top: 10%;
+  padding-right: 10%;
+  z-index: 99;
 }
 
 .btn-listview {
@@ -149,7 +138,6 @@
   font-size: 1.2rem;
   width: 100%;
   border-radius: 5px;
-  margin-right: 10%;
 }
 
 .btn-listview span {
@@ -209,4 +197,19 @@
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
   background-color: #dbdbdb !important;
+}
+
+.travelList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding-right: 10%;
+}
+
+.travelListItem {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f8f3eb;
+  border-bottom: 1px solid #d4d4d4;
 }
