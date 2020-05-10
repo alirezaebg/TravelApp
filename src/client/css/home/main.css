@@ -117,19 +117,14 @@
   font-size: 1rem;
 }
 
-/* The following classes apply when user adds a destination to his/her list */
 .listview {
-  display: none;
-}
-
-.listview-afterAddBtn {
   position: relative;
   display: flex;
   flex-direction: column;
   transition: 1s;
   margin-top: 10%;
   padding-right: 10%;
-  z-index: 99;
+  /* z-index: 99; */
 }
 
 .btn-listview {
@@ -201,15 +196,39 @@
 
 .travelList {
   position: absolute;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
   top: 100%;
   left: 0;
-  width: 100%;
+  right: 0;
   padding-right: 10%;
 }
 
-.travelListItem {
+.toggleList {
+  display: none;
+}
+
+.travelList div {
   padding: 10px;
   cursor: pointer;
-  background-color: #f8f3eb;
+  background-color: #fff;
   border-bottom: 1px solid #d4d4d4;
+}
+
+.travelItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fa-trash-alt {
+  font-size: 1.2rem;
+}
+
+.travelItemSlide {
+  transform: translateX(-100%);
+  transition: 0.75s;
+  /* animation: 3s linear 1s infinite alternate slidein; */
 }

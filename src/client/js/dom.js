@@ -1,5 +1,9 @@
-//Global variables
+// variable to get header tabs
 const headerTabs = document.querySelectorAll('.nav-links a');
+// variable to store list of cities that user has enetered
+let cityArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
+// variable to hold the state of 'view my list' button
+let viewListPressed = false;
 
 // Change header links appearance when hovering over them
 headerTabs.forEach(heading => {
@@ -36,16 +40,27 @@ document.addEventListener("click", function(e) {
 // function to close the open city-autocomplete list
 function closeAutoList(e) {
   const elems = $(".cityNamesAuto");
-    if (e != elems && e != $('#destination-text')) {
-        elems.remove();
-    }
+  if (e != elems && e != $('#destination-text')) {
+    elems.remove();
+  }
 }
 
 // function to close an open travel list
 function closeTravelList(e) {
-    if (e != $('#addBtn')[0] && e != $('#addBtn span')[0]) {
-      $(".travelList").remove();
+  let valid = true; // it is set to true as initially none of the following 3 elements are clicked!
+  let allStrongs = $("#travelListId strong");
+  let allTrashes = $("#travelListId .fa-trash-alt");
+  let allTravelListItems = $(".travelItem");
+  // if any of the above elements are clicked, set the valid to false as we dont' want this function to work in those cases
+  for (let i = 0; i < allTrashes.length; i++) {
+    if (e === allStrongs.get(i) || e === allTrashes.get(i) || e === allTravelListItems.get(i)) {
+      valid = false;
     }
+  }
+  if (e != $('#addBtn')[0] && e != $('#addBtn span')[0] && valid) {
+    $("#travelListId").addClass("toggleList");
+    removeTravelListItems();
+  }
 }
 
 // function that opens an autocomplete list when user types a destination and handles if user choses a destination with mouse
@@ -97,7 +112,7 @@ function addAutoCompleteList(data) {
         /*and simulate a click on the "active" item:*/
         if (x) {
           x[currentFocus].click();
-          currentFocus = -1;   //reset the current focus
+          currentFocus = -1; //reset the current focus
         }
       }
     }
@@ -122,6 +137,60 @@ function addAutoCompleteList(data) {
   }
 }
 
+// event listner for '+Add to list' button
+$(".btn-addToList").click(function() {
+  /* Local storage code goes here */
+  const newCityEntry = $('#destination-text').val();
+  if (!cityArray.includes(newCityEntry)) {
+    cityArray.push(newCityEntry);
+  };
+  localStorage.setItem('cities', JSON.stringify(cityArray));
+})
+
+// event listener for 'View my list' button
+$("#addBtn").click(function() {
+  $("#travelListId").toggleClass("toggleList");
+  if (!viewListPressed) {
+    for (let i = 0; i < cityArray.length; i++) {
+      const travelItem = document.createElement('div');
+      travelItem.setAttribute('id', `li${i+1}`);
+      travelItem.setAttribute('class', 'travelItem');
+      travelItem.innerHTML = '<Strong>' + cityArray[i] + '</Strong>';
+      travelItem.innerHTML += '<i class="fas fa-trash-alt"></i>';
+      $("#travelListId").append(travelItem);
+      $(`#li${i}`).addClass('travelItem');
+    }
+    viewListPressed = true;
+    // event listener for the trash icon
+    document.querySelectorAll(".fa-trash-alt").forEach(inp =>
+      inp.addEventListener('click', function() {
+        inp.parentNode.classList.add("travelItemSlide");
+        setTimeout(function(){
+          inp.parentNode.style.display = 'none';
+        }, 700);
+        //remove it from localStorage
+        const txt = inp.parentNode.textContent;
+        for (let i = 0; i < cityArray.length; i++) {
+          if (txt === cityArray[i]) {
+            cityArray.splice(i, 1);
+          }
+        }
+        localStorage.setItem('cities', JSON.stringify(cityArray));
+      })
+    )
+  } else {
+    removeTravelListItems();
+  }
+})
+
+// function to remove all child elements of the travel list
+function removeTravelListItems() {
+  const list = document.querySelector("#travelListId");
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+  viewListPressed = false;
+}
 
 export {
   closeAutoList,
