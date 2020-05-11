@@ -14,6 +14,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
 
+// ejs setup
+app.set('views', './src/client/views');
+app.set('view engine', 'ejs');
+
 // use all the static files
 app.use(express.static('./src/client'));
 
@@ -74,4 +78,16 @@ app.post('/places', (req, res) => {
     console.error(`Got error: ${e.message}`);
   });
 
+})
+
+let cityName = "";
+// post route for travel info
+app.post('/travelInfo', (req, res) => {
+  cityName = req.body.cityName;
+  res.redirect("/travelInfo");
+})
+
+app.get('/travelInfo', (req, res) => {
+  console.log(cityName);
+  res.render('travelInfo', {cityName: cityName});
 })

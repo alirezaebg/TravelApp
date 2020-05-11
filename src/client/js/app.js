@@ -41,11 +41,9 @@ const postData = async (url = '', data = {}) => {
   }
 }
 
-// event listener for 'View my list' button
-
 // Pixabay api call
 var API_KEY = '16382015-63fe13ad973b21882312bf3a7';
-var query = 'Paris';
+var query = 'Paris, France';
 var URL = "https://pixabay.com/api/?key=" + API_KEY + "&q=" + encodeURIComponent(query);
 fetch(URL)
   .then(response => response.json())

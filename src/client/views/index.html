@@ -52,7 +52,7 @@
       </div>
       <div class="destination">
         <label class="select-title">Destination</label>
-        <input id="destination-text" type="text" name="destination" placeholder="City" class="input-text">
+        <input id="destination-text" type="text" name="cityName" placeholder="City" class="input-text" form="message" autocomplete="off">
       </div>
       <div class="departure">
         <label class="select-title">Departure</label>
@@ -62,14 +62,13 @@
         <label class="select-title">Return</label>
         <input id="flatpickrRet" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
       </div>
-      <div class="add-destination">
+      <form id="message" action="/travelInfo" method="post" class="add-destination">
         <button type="button" class="btn btn-lg btn-inputform btn-addToList"><i class="fas fa-plus"></i> Add to list</button>
-        <button type="button" class="btn btn-lg btn-inputform btn-lookUp">Travel info >></button>
-      </div>
+        <button type="submit" class="btn btn-lg btn-inputform btn-lookUp">Travel info >></button>
+      </form>
       <div id="addBtnDiv" class="listview">
         <button id="addBtn" type="button" class="btn btn-listview"><span>View my list </i></span> </button>
         <div id="travelListId" class="travelList toggleList">
-
         </div>
       </div>
 
