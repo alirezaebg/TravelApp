@@ -13,7 +13,8 @@ header {
   align-items: center;
   flex-direction: row;
   font-size: 1.2rem;
-  padding: 1% 5%;
+  padding: 25px 50px;
+  height: 200px;
 }
 
 .logo {
@@ -25,6 +26,7 @@ header {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  z-index: 99;
 }
 
 .logo h2 {

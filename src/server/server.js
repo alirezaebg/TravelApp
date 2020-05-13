@@ -80,14 +80,19 @@ app.post('/places', (req, res) => {
 
 })
 
-let cityName = "";
+let imageUrl = [];
 // post route for travel info
 app.post('/travelInfo', (req, res) => {
-  cityName = req.body.cityName;
+  const API_KEY = process.env.pixabayApiKey;
+  const pixabayUrl = process.env.pixabayApiUrl;
+  const query = req.body.cityName;
+  const url = pixabayUrl + encodeURIComponent(query) + API_KEY;
+  console.log(url);
+  imageUrl = [];
+  imageUrl.push("https://pixabay.com/get/57e0d6474b55b10ff3d8992cc62e3476173fdfe04e5074417c2d7dd39245c0_640.jpg");
   res.redirect("/travelInfo");
 })
 
 app.get('/travelInfo', (req, res) => {
-  console.log(cityName);
-  res.render('travelInfo', {cityName: cityName});
+  res.render('travelInfo', {imageUrl: imageUrl});
 })

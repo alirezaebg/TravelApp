@@ -1,0 +1,54 @@
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap');
+
+/* custome styles */
+/* header section */
+header {
+  /* background-color: #a3f7bf; */
+  background-color: #e8f9e9;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.logo {
+  margin-right: auto;
+  cursor: pointer;
+  position: absolute;
+  top: 25px;
+  left: 50px;
+}
+
+.logo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  z-index: 99;
+}
+
+.logo h2 {
+  display: inline-block;
+  font-family: Permanent Marker;
+}
+
+header .bg {
+  object-fit: cover;
+  height: 200px;
+  width: 100%;
+  opacity: 0.3;
+}
+
+/* title section */
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1% 5% 1% 2%;
+  background-color: #abf0e9;
+}
+
+.title a {
+  font-size: 1.2rem;
+  color: #00005c;
+}
