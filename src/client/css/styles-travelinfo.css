@@ -45,10 +45,62 @@ header .bg {
   flex-direction: row;
   justify-content: space-between;
   padding: 1% 5% 1% 2%;
-  background-color: #abf0e9;
+  background-color: #f9b384;
 }
 
 .title a {
   font-size: 1.2rem;
   color: #00005c;
+}
+
+/* main body */
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 100%;
+  grid-template-areas: "a b"
+}
+
+/* travel dest sectoin of the main */
+.tile img {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+}
+
+.travel-dest {
+  grid-area: a;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.tile {
+  margin: 10px 20px 0 20px;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.info-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+  padding: 25px 0;
+}
+
+.tile-text {
+  margin-right: auto;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.info-btn button, .tile button {
+  width: 150px;
+  margin-top: 15px;
 }

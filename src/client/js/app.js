@@ -2,6 +2,9 @@ import {
   addAutoCompleteList
 } from './dom.js';
 
+import {viewListPressed} from './dom.js'
+import {cityArray, departDatesArray, returnDatesArray, countdownArray} from './dom.js'
+
 // event listener for the input text field (destination)
 const dest_box = document.getElementById('destination-text');
 dest_box.addEventListener('input', citySearch);
@@ -41,10 +44,11 @@ const postData = async (url = '', data = {}) => {
   }
 }
 
-// Pixabay api call
-var API_KEY = '16382015-63fe13ad973b21882312bf3a7';
-var query = 'Paris, France';
-var URL = "https://pixabay.com/api/?key=" + API_KEY + "&q=" + encodeURIComponent(query);
-fetch(URL)
-  .then(response => response.json())
-  .then(data => console.log(data));
+// Event listener for the travel info button
+$(".btn-lookUp").click(function() {
+  document.getElementById("formCityNames").value = JSON.stringify(cityArray);
+  document.getElementById("formDepartDates").value = JSON.stringify(departDatesArray);
+  document.getElementById("formReturnDates").value = JSON.stringify(returnDatesArray);
+  document.getElementById("formCountdowns").value = JSON.stringify(countdownArray);
+  $("#message").submit();
+})

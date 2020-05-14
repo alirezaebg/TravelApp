@@ -1,9 +1,12 @@
 // variable to get header tabs
 const headerTabs = document.querySelectorAll('.nav-links a');
 // variable to store list of cities that user has enetered
-let cityArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
+export let cityArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
+export let departDatesArray = localStorage.getItem('departs') ? JSON.parse(localStorage.getItem('departs')) : [];
+export let returnDatesArray = localStorage.getItem('returns') ? JSON.parse(localStorage.getItem('returns')) : [];
+export let countdownArray = localStorage.getItem('countdowns') ? JSON.parse(localStorage.getItem('countdowns')) : [];
 // variable to hold the state of 'view my list' button
-let viewListPressed = false;
+export let viewListPressed = false;
 
 // Change header links appearance when hovering over them
 headerTabs.forEach(heading => {
@@ -140,11 +143,31 @@ function addAutoCompleteList(data) {
 // event listner for '+Add to list' button
 $(".btn-addToList").click(function() {
   /* Local storage code goes here */
-  const newCityEntry = $('#destination-text').val();
-  if (!cityArray.includes(newCityEntry)) {
-    cityArray.push(newCityEntry);
-  };
-  localStorage.setItem('cities', JSON.stringify(cityArray));
+  if($("#destination-text").val().length > 0) { //non-empty inputs
+    const newCityEntry = $('#destination-text').val();
+    const newDepartDate = $('#flatpickrDept').val();
+    const newReturnDate = $('#flatpickrRet').val();
+    const options = {year: 'numeric', month: 'numeric', day: 'numeric'}
+    const departDateVar = new Date(newDepartDate).getTime();
+    const returnDateVar = new Date(newReturnDate).getTime();
+    const now = new Date().getTime();
+    const countDown = departDateVar - now;
+    // revise the city array so that is it more known to other APIs such as pixabay
+    let newCityEdit = newCityEntry.split(',');
+    newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length-1];  //keeping the city name and country
+    if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar) {
+      cityArray.push(newCityEdit);
+      departDatesArray.push(new Date(newDepartDate).toLocaleDateString("en-EN", options));
+      returnDatesArray.push(new Date(newReturnDate).toLocaleDateString("en-EN", options));
+      countdownArray.push(Math.floor(countDown/(1000 * 60 * 60 * 24)));
+      localStorage.setItem('cities', JSON.stringify(cityArray));
+      localStorage.setItem('departs', JSON.stringify(departDatesArray));
+      localStorage.setItem('returns', JSON.stringify(returnDatesArray));
+      localStorage.setItem('countdowns', JSON.stringify(countdownArray));
+    };
+
+  }
+
 })
 
 // event listener for 'View my list' button
@@ -173,9 +196,15 @@ $("#addBtn").click(function() {
         for (let i = 0; i < cityArray.length; i++) {
           if (txt === cityArray[i]) {
             cityArray.splice(i, 1);
+            departDatesArray.splice(i, 1);
+            returnDatesArray.splice(i, 1);
+            countdownArray.splice(i, 1);
           }
         }
         localStorage.setItem('cities', JSON.stringify(cityArray));
+        localStorage.setItem('departs', JSON.stringify(departDatesArray));
+        localStorage.setItem('returns', JSON.stringify(returnDatesArray));
+        localStorage.setItem('countdowns', JSON.stringify(countdownArray));
       })
     )
   } else {

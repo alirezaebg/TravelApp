@@ -5,12 +5,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const https = require('https');
+const fetch = require("node-fetch");
 dotenv.config();
 // intsance of the application
 const app = express();
 
 // use dependencies
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -29,7 +32,9 @@ const server = app.listen(port, () => {
 
 // get request to home route
 app.get('/', function(req, res) {
-  res.sendFile('/client/views/index.html', {root: __dirname + '/..'});
+  res.sendFile('/client/views/index.html', {
+    root: __dirname + '/..'
+  });
 })
 
 // post request to '/places' route which is used for google places api
@@ -80,19 +85,80 @@ app.post('/places', (req, res) => {
 
 })
 
-let imageUrl = [];
+let imageUrl, cityArrayNew, cities, count, map, mapC, cDowns;
 // post route for travel info
 app.post('/travelInfo', (req, res) => {
   const API_KEY = process.env.pixabayApiKey;
   const pixabayUrl = process.env.pixabayApiUrl;
-  const query = req.body.cityName;
-  const url = pixabayUrl + encodeURIComponent(query) + API_KEY;
-  console.log(url);
+  let url;
+  const cityArray = JSON.parse(req.body.cityNames);
+  const countdowns = JSON.parse(req.body.countdowns);
+  // flush all the arrays to avoid repetition
   imageUrl = [];
-  imageUrl.push("https://pixabay.com/get/57e0d6474b55b10ff3d8992cc62e3476173fdfe04e5074417c2d7dd39245c0_640.jpg");
-  res.redirect("/travelInfo");
+  cityArrayNew = [];
+  cities = [];
+  cDowns = [];
+  map = new Map();
+  mapC = new Map();
+  count = 0;
+  for (let i = 0; i < cityArray.length; i++) {
+    url = pixabayUrl + encodeURIComponent(cityArray[i]) + API_KEY;
+    // extract the country name
+    let country = cityArray[i].split(',');
+    country = country[country.length - 1];
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        //if pixabay finds a picture for that url
+        if (data.hits.length === 0) {
+          cityArrayNew.push(country);
+          map.set(country, cityArray[i]);
+          mapC.set(country, countdowns[i]);
+          count++;
+        } else {
+          cityArrayNew.push(cityArray[i]);
+          map.set(cityArray[i], cityArray[i]);
+          mapC.set(cityArray[i], countdowns[i]);
+          count++;
+        }
+        if (count == cityArray.length) {
+          count = 0;
+          for (let k = 0; k < cityArrayNew.length; k++) {
+            url = pixabayUrl + encodeURIComponent(cityArrayNew[k]) + API_KEY;
+            fetch(url)
+              .then(res => res.json())
+              .then(data => {
+                imageUrl.push(data.hits[0].largeImageURL);
+                cities.push(map.get(cityArrayNew[k]));
+                cDowns.push(mapC.get(cityArrayNew[k]));
+                count++;
+                if (count == cityArrayNew.length) res.redirect("/travelInfo");
+              })
+          }
+        }
+      })
+
+  }
+
 })
 
 app.get('/travelInfo', (req, res) => {
-  res.render('travelInfo', {imageUrl: imageUrl});
+  let indexMap = new Map();
+  for (let i = 0; i < cDowns.length; i++) {
+    indexMap.set(cDowns[i], i);
+  }
+  cDowns.sort(function(x, y) {return x - y});
+  let sortedImageUrl = [];
+  let sortedCities = [];
+  for (let i = 0; i < cDowns.length; i++) {
+    let index = indexMap.get(cDowns[i]);
+    sortedImageUrl.push(imageUrl[index]);
+    sortedCities.push(cities[index]);
+  }
+  res.render('travelInfo', {
+    imageUrl: sortedImageUrl,
+    cityArray: sortedCities,
+    countdowns: cDowns,
+  });
 })

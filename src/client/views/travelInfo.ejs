@@ -25,18 +25,44 @@
     </div>
     <!-- link to return to home page -->
   </header>
+
   <!--  title section -->
   <section class="title">
     <h3>Your travel itenarary</h2>
-    <a href="http://localhost:3000">Return to home</a>
+      <a href="http://localhost:3000">Return to home</a>
   </section>
 
+  <!-- main result section -->
+  <main>
+    <!-- section to include travel destination -->
+    <section class="travel-dest">
+      <% for (let i = 0; i<imageUrl.length; i++) { %>
+      <div class="tile">
+        <div class="tile-text">
+          <div class="">
+            <h5>Trip to: <%= cityArray[i] %></h5>
+            <h5>in: <%= countdowns[i] %> Days</h5>
+          </div>
+          <button type="button" class="btn btn-primary">Remove trip</button>
+        </div>
+        <div class="info-btn">
+          <button type="button" class="btn btn-danger">Weather info</button>
+          <button type="button" class="btn btn-danger">Hotel info</button>
+        </div>
+        <img src=<%= imageUrl[i] %> alt="test">
+      </div>
+      <%    } %>
+    </section>
+    <!-- section to include travel info -->
+    <section class="travel-info">
 
-  <div>
-    <% for (var i = 0; i < imageUrl.length; i++) { %>
-          <img src=<%= imageUrl[i] %> alt="test">
-    <%    } %>
-  </div>
+    </section>
+  </main>
+
+
+
+
+
   <!-- jquery slim for Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <!-- popper for Bootstrap  -->

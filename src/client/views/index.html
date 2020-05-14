@@ -56,15 +56,19 @@
       </div>
       <div class="departure">
         <label class="select-title">Departure</label>
-        <input id="flatpickrDept" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
+        <input id="flatpickrDept" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text" form="message">
       </div>
       <div class="return">
         <label class="select-title">Return</label>
-        <input id="flatpickrRet" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text">
+        <input id="flatpickrRet" type="text" name="destination" placeholder="MM/DD/YYYY" class="input-text" form="message">
       </div>
       <form id="message" action="/travelInfo" method="post" class="add-destination">
         <button type="button" class="btn btn-lg btn-inputform btn-addToList"><i class="fas fa-plus"></i> Add to list</button>
-        <button type="submit" class="btn btn-lg btn-inputform btn-lookUp">Travel info >></button>
+        <button type="button" class="btn btn-lg btn-inputform btn-lookUp">Travel info >></button>
+        <input id="formCityNames" type="hidden" name="cityNames">
+        <input id="formDepartDates" type="hidden" name="departDates">
+        <input id="formReturnDates" type="hidden" name="returnDates">
+        <input id="formCountdowns" type="hidden" name="countdowns">
       </form>
       <div id="addBtnDiv" class="listview">
         <button id="addBtn" type="button" class="btn btn-listview"><span>View my list </i></span> </button>
@@ -216,8 +220,8 @@
   <!-- Bootstrap  -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <!-- Custom scripts -->
-  <script type="module" src="../js/app.js"></script>
   <script type="module" src="../js/dom.js"></script>
+  <script type="module" src="../js/app.js"></script>
   <!-- Flat datepicker -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="../js/datepicker.js"></script>
