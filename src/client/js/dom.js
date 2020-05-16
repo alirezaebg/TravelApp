@@ -8,6 +8,8 @@ export let countdownArray = localStorage.getItem('countdowns') ? JSON.parse(loca
 // variable to hold the state of 'view my list' button
 export let viewListPressed = false;
 
+import {allRemoveBtns} from './travelinfo.js'
+
 // Change header links appearance when hovering over them
 headerTabs.forEach(heading => {
   //hover over
@@ -60,7 +62,7 @@ function closeTravelList(e) {
       valid = false;
     }
   }
-  if (e != $('#addBtn')[0] && e != $('#addBtn span')[0] && valid) {
+  if (e != $('#addBtn')[0] && e != $('#addBtn span')[0] && valid && allTrashes.length !== 0) {
     $("#travelListId").addClass("toggleList");
     removeTravelListItems();
   }
@@ -156,7 +158,7 @@ $(".btn-addToList").click(function() {
     let newCityEdit = newCityEntry.split(',');
     newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length-1];  //keeping the city name and country
     if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar) {
-      cityArray.push(newCityEdit);
+      cityArray.push(newCityEdit.trim());
       departDatesArray.push(new Date(newDepartDate).toLocaleDateString("en-EN", options));
       returnDatesArray.push(new Date(newReturnDate).toLocaleDateString("en-EN", options));
       countdownArray.push(Math.floor(countDown/(1000 * 60 * 60 * 24)));

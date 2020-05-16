@@ -51,4 +51,4 @@ $(".btn-lookUp").click(function() {
   document.getElementById("formReturnDates").value = JSON.stringify(returnDatesArray);
   document.getElementById("formCountdowns").value = JSON.stringify(countdownArray);
   $("#message").submit();
-})
+});

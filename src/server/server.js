@@ -7,6 +7,17 @@ const dotenv = require('dotenv');
 const https = require('https');
 const fetch = require("node-fetch");
 dotenv.config();
+// endpoints
+let imageUrl,          //links to pixabay images on the server side
+    cityArrayNew,      //a new array for city where if pixabay returns no pic, the city is replaced by country
+    cities,            //list of cities on the server side
+    count,             //variable that makes sure all the inputs have been read
+    map,               //map between cityArray and cityArrayNew
+    mapC,              //map between cityArray and countdowns
+    cDowns,            //countdowns on the server side
+    sortedImageUrl,    //ImageUrl is sorted based on countdowns (small to large)
+    sortedCities;      //cities is sorted based on the countdowns
+
 // intsance of the application
 const app = express();
 
@@ -85,7 +96,6 @@ app.post('/places', (req, res) => {
 
 })
 
-let imageUrl, cityArrayNew, cities, count, map, mapC, cDowns;
 // post route for travel info
 app.post('/travelInfo', (req, res) => {
   const API_KEY = process.env.pixabayApiKey;
@@ -98,6 +108,8 @@ app.post('/travelInfo', (req, res) => {
   cityArrayNew = [];
   cities = [];
   cDowns = [];
+  sortedImageUrl = [];
+  sortedCities = [];
   map = new Map();
   mapC = new Map();
   count = 0;
@@ -133,7 +145,9 @@ app.post('/travelInfo', (req, res) => {
                 cities.push(map.get(cityArrayNew[k]));
                 cDowns.push(mapC.get(cityArrayNew[k]));
                 count++;
-                if (count == cityArrayNew.length) res.redirect("/travelInfo");
+                if (count == cityArrayNew.length) {
+                  res.redirect("/travelInfo");
+                }
               })
           }
         }
@@ -143,22 +157,42 @@ app.post('/travelInfo', (req, res) => {
 
 })
 
+// get route for the '/travelInfo' route that renders the travel information
 app.get('/travelInfo', (req, res) => {
-  let indexMap = new Map();
+  let indexMap = new Map();     //mao to save the indexes of an unsorted countdowns array
   for (let i = 0; i < cDowns.length; i++) {
     indexMap.set(cDowns[i], i);
   }
-  cDowns.sort(function(x, y) {return x - y});
-  let sortedImageUrl = [];
-  let sortedCities = [];
+  cDowns.sort(function(x, y) {    //sorting the countdown array
+    return x - y
+  });
+  //flush the already sorted arrays
+  sortedImageUrl = [];
+  sortedCities = [];
+  //fill the arrays according to the sorted countdown array so that the values are moved around correctly
   for (let i = 0; i < cDowns.length; i++) {
     let index = indexMap.get(cDowns[i]);
     sortedImageUrl.push(imageUrl[index]);
     sortedCities.push(cities[index]);
   }
-  res.render('travelInfo', {
+  imageUrl = sortedImageUrl;
+  cities = sortedCities;
+  res.render('travelInfo', {      //call the ejs file
     imageUrl: sortedImageUrl,
     cityArray: sortedCities,
     countdowns: cDowns,
   });
+})
+
+// post route for '/travelInfo-ejs' that is triggered when on '/travelInfo' page an entry is removed
+app.post('/travelInfo-ejs', (req, res) => {
+  const removed = req.body.deletedCity;
+  for (let i = 0; i < cities.length; i++) {
+    if (cities[i].trim() === removed.trim()) { //find the removed item and delete its counterparts in the other arrays
+      cities.splice(i, 1);
+      cDowns.splice(i, 1);
+      imageUrl.splice(i, 1);
+    }
+  }
+  res.redirect("/travelInfo");
 })
