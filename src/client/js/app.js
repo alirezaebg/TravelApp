@@ -4,7 +4,7 @@ import {
 
 import {viewListPressed} from './dom.js'
 import {cityArray, departDatesArray, returnDatesArray, countdownArray} from './dom.js'
-import {addNewEntry} from './dom.js'
+import {addNewEntry, displayMessage} from './dom.js'
 
 // event listener for the input text field (destination)
 const dest_box = document.getElementById('destination-text');
@@ -47,10 +47,10 @@ const postData = async (url = '', data = {}) => {
 
 // Event listener for the travel info button
 $(".btn-lookUp").click(function() {
-  addNewEntry();
   document.getElementById("formCityNames").value = JSON.stringify(cityArray);
   document.getElementById("formDepartDates").value = JSON.stringify(departDatesArray);
   document.getElementById("formReturnDates").value = JSON.stringify(returnDatesArray);
   document.getElementById("formCountdowns").value = JSON.stringify(countdownArray);
-  $("#message").submit();
+  if (cityArray.length > 0) $("#message").submit();
+  else displayMessage("Add a destination to list!");
 });

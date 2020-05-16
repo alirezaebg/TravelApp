@@ -145,7 +145,8 @@ $(".btn-addToList").click(addNewEntry);
 
 function addNewEntry() {
   /* Local storage code goes here */
-  if ($("#destination-text").val().length > 0 && $('#flatpickrDept').val().length > 0) { //non-empty inputs
+  if ($("#destination-text").val().length > 0 && $('#flatpickrDept').val().length > 0 &&
+    $('#flatpickrRet').val().length > 0) { //non-empty inputs
     const newCityEntry = $('#destination-text').val();
     const newDepartDate = $('#flatpickrDept').val();
     const newReturnDate = $('#flatpickrRet').val();
@@ -159,8 +160,11 @@ function addNewEntry() {
     const now = new Date().getTime();
     const countDown = departDateVar - now;
     // revise the city array so that is it more known to other APIs such as pixabay
-    let newCityEdit = newCityEntry.split(',');
-    newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length - 1]; //keeping the city name and country
+    let newCityEdit = newCityEntry;
+    if (newCityEdit.includes(',')) {
+      newCityEdit = newCityEntry.split(',');
+      newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length - 1]; //keeping the city name and country
+    }
     if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar) {
       //add the new entry
       cityArray.push(newCityEdit.trim());
@@ -196,7 +200,17 @@ function addNewEntry() {
       localStorage.setItem('departs', JSON.stringify(departDatesArray));
       localStorage.setItem('returns', JSON.stringify(returnDatesArray));
       localStorage.setItem('countdowns', JSON.stringify(countdownArray));
+      displayMessage("Successfully added!");
     }
+    else if (cityArray.includes(newCityEdit)) {
+      displayMessage("Destination is already on the list");
+    }
+    else if (departDateVar >= returnDateVar) {
+      displayMessage("Check your dates!");
+    }
+  }
+  else {
+    displayMessage("Fill in the required fields!");
   }
 }
 
@@ -210,7 +224,7 @@ $("#addBtn").click(function() {
       travelItem.setAttribute('class', 'travelItem');
       travelItem.innerHTML = '<Strong>' + cityArray[i] + '</Strong>';
       if (countdownArray[i] == 1) {
-          travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' day )</span></Strong>';
+        travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' day )</span></Strong>';
       } else {
         travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' days )</span></Strong>';
       }
@@ -257,8 +271,19 @@ function removeTravelListItems() {
   viewListPressed = false;
 }
 
+// function to print a message when using the form
+function displayMessage(msg) {
+  console.log(msg);
+  $("#displayMsg").removeClass("hide");
+  $("#displayMsg h6").text(msg);
+  setTimeout(function() {
+    $("#displayMsg").addClass("hide");
+  }, 2000)
+}
+
 export {
   closeAutoList,
   addAutoCompleteList,
   addNewEntry,
+  displayMessage,
 }
