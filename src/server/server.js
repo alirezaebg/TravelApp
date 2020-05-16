@@ -14,9 +14,7 @@ let imageUrl,          //links to pixabay images on the server side
     count,             //variable that makes sure all the inputs have been read
     map,               //map between cityArray and cityArrayNew
     mapC,              //map between cityArray and countdowns
-    cDowns,            //countdowns on the server side
-    sortedImageUrl,    //ImageUrl is sorted based on countdowns (small to large)
-    sortedCities;      //cities is sorted based on the countdowns
+    cDowns;           //countdowns on the server side
 
 // intsance of the application
 const app = express();
@@ -167,8 +165,8 @@ app.get('/travelInfo', (req, res) => {
     return x - y
   });
   //flush the already sorted arrays
-  sortedImageUrl = [];
-  sortedCities = [];
+  let sortedImageUrl = [];
+  let sortedCities = [];
   //fill the arrays according to the sorted countdown array so that the values are moved around correctly
   for (let i = 0; i < cDowns.length; i++) {
     let index = indexMap.get(cDowns[i]);

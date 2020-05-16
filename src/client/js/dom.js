@@ -8,8 +8,6 @@ export let countdownArray = localStorage.getItem('countdowns') ? JSON.parse(loca
 // variable to hold the state of 'view my list' button
 export let viewListPressed = false;
 
-import {allRemoveBtns} from './travelinfo.js'
-
 // Change header links appearance when hovering over them
 headerTabs.forEach(heading => {
   //hover over
@@ -143,34 +141,64 @@ function addAutoCompleteList(data) {
 }
 
 // event listner for '+Add to list' button
-$(".btn-addToList").click(function() {
+$(".btn-addToList").click(addNewEntry);
+
+function addNewEntry() {
   /* Local storage code goes here */
-  if($("#destination-text").val().length > 0) { //non-empty inputs
+  if ($("#destination-text").val().length > 0 && $('#flatpickrDept').val().length > 0) { //non-empty inputs
     const newCityEntry = $('#destination-text').val();
     const newDepartDate = $('#flatpickrDept').val();
     const newReturnDate = $('#flatpickrRet').val();
-    const options = {year: 'numeric', month: 'numeric', day: 'numeric'}
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }
     const departDateVar = new Date(newDepartDate).getTime();
     const returnDateVar = new Date(newReturnDate).getTime();
     const now = new Date().getTime();
     const countDown = departDateVar - now;
     // revise the city array so that is it more known to other APIs such as pixabay
     let newCityEdit = newCityEntry.split(',');
-    newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length-1];  //keeping the city name and country
+    newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length - 1]; //keeping the city name and country
     if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar) {
+      //add the new entry
       cityArray.push(newCityEdit.trim());
       departDatesArray.push(new Date(newDepartDate).toLocaleDateString("en-EN", options));
       returnDatesArray.push(new Date(newReturnDate).toLocaleDateString("en-EN", options));
-      countdownArray.push(Math.floor(countDown/(1000 * 60 * 60 * 24)));
+      countdownArray.push(Math.floor(countDown / (1000 * 60 * 60 * 24)));
+      /* ort the arrays based on countdowns */
+      let iMap = new Map(); //mao to save the indexes of an unsorted countdowns array
+      for (let i = 0; i < countdownArray.length; i++) {
+        iMap.set(countdownArray[i], i);
+      }
+      countdownArray.sort(function(x, y) { //sorting the countdown array
+        return x - y
+      });
+      //flush the already sorted arrays
+      let sortedCityArray = [];
+      let sortedDepartDatesArray = [];
+      let sortedReturnDatesArray = [];
+      //fill the arrays according to the sorted countdown array so that the values are moved around correctly
+      for (let i = 0; i < countdownArray.length; i++) {
+        let index = iMap.get(countdownArray[i]);
+        sortedCityArray.push(cityArray[index]);
+        sortedDepartDatesArray.push(departDatesArray[index]);
+        sortedReturnDatesArray.push(returnDatesArray[index]);
+      }
+      //replace the original arrays with the sorted ones
+      cityArray = sortedCityArray;
+      departDatesArray = sortedDepartDatesArray;
+      returnDatesArray = sortedReturnDatesArray;
+      /* sort is done */
+      //Add to localStorage
       localStorage.setItem('cities', JSON.stringify(cityArray));
       localStorage.setItem('departs', JSON.stringify(departDatesArray));
       localStorage.setItem('returns', JSON.stringify(returnDatesArray));
       localStorage.setItem('countdowns', JSON.stringify(countdownArray));
-    };
-
+    }
   }
-
-})
+}
 
 // event listener for 'View my list' button
 $("#addBtn").click(function() {
@@ -181,20 +209,26 @@ $("#addBtn").click(function() {
       travelItem.setAttribute('id', `li${i+1}`);
       travelItem.setAttribute('class', 'travelItem');
       travelItem.innerHTML = '<Strong>' + cityArray[i] + '</Strong>';
+      if (countdownArray[i] == 1) {
+          travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' day )</span></Strong>';
+      } else {
+        travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' days )</span></Strong>';
+      }
       travelItem.innerHTML += '<i class="fas fa-trash-alt"></i>';
       $("#travelListId").append(travelItem);
       $(`#li${i}`).addClass('travelItem');
+      document.querySelectorAll(`.travelItem span`)[i].style.color = '#679b9b';
     }
     viewListPressed = true;
     // event listener for the trash icon
     document.querySelectorAll(".fa-trash-alt").forEach(inp =>
       inp.addEventListener('click', function() {
         inp.parentNode.classList.add("travelItemSlide");
-        setTimeout(function(){
+        setTimeout(function() {
           inp.parentNode.style.display = 'none';
         }, 700);
         //remove it from localStorage
-        const txt = inp.parentNode.textContent;
+        const txt = inp.parentNode.firstChild.textContent;
         for (let i = 0; i < cityArray.length; i++) {
           if (txt === cityArray[i]) {
             cityArray.splice(i, 1);
@@ -226,4 +260,5 @@ function removeTravelListItems() {
 export {
   closeAutoList,
   addAutoCompleteList,
+  addNewEntry,
 }

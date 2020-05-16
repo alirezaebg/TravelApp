@@ -106,6 +106,30 @@ main {
   margin-top: 15px;
 }
 
+.custom-btn {
+  background-color: #bb3b0e;
+  color: #fff;
+}
+
+.btn-remove {
+  background-color: #21243d;
+  color: #fff;
+}
+
+.custom-btn:active, .btn-remove:active {
+  transform: translateY(3px);
+}
+
+.custom-btn:focus, .btn-remove:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.btn:hover {
+  color: #fff;
+}
+
+
 .slide-right {
   transform: translateX(25px);
   transition: 0.4s;

@@ -98,11 +98,11 @@
   color: #f8eeee;
 }
 
-.btn:active, .dropdown:active {
+.btn:active {
   transform: translateY(3px);
 }
 
-.btn:focus, .dropdown:focus {
+.btn:focus {
   outline: none;
   box-shadow: none;
 }
@@ -220,11 +220,16 @@
 .travelItem {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .fa-trash-alt {
   font-size: 1.2rem;
+  margin-left: auto;
+}
+
+.countdownSpan {
+  margin-left: 10px;
 }
 
 .travelItemSlide {

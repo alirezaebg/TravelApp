@@ -1,7 +1,7 @@
 import {viewListPressed} from './dom.js'
 import {cityArray, departDatesArray, returnDatesArray, countdownArray} from './dom.js'
 
-export const allRemoveBtns = document.querySelectorAll(".tile-text button");
+const allRemoveBtns = document.querySelectorAll(".tile-text button");
 
 document.addEventListener("DOMContentLoaded", function() {
   for (let i = 0; i < allRemoveBtns.length; i++) {
