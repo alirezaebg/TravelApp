@@ -6,15 +6,19 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const https = require('https');
 const fetch = require("node-fetch");
+const lookup = require('country-code-lookup')
+
 dotenv.config();
 // endpoints
-let imageUrl,          //links to pixabay images on the server side
-    cityArrayNew,      //a new array for city where if pixabay returns no pic, the city is replaced by country
-    cities,            //list of cities on the server side
-    count,             //variable that makes sure all the inputs have been read
-    map,               //map between cityArray and cityArrayNew
-    mapC,              //map between cityArray and countdowns
-    cDowns;           //countdowns on the server side
+let imageUrl, //links to pixabay images on the server side
+  cityArrayNew, //a new array for city where if pixabay returns no pic, the city is replaced by country
+  servCityArray, //list of cities on the server side
+  count, //variable that makes sure all the inputs have been read
+  map, //map between cityArray and cityArrayNew
+  mapC, //map between cityArray and countdowns
+  servDepartDates, //departure dates on the server side
+  servReturnDates, //return dates on the server side
+  serCountdowns; //countdowns on the server side
 
 // intsance of the application
 const app = express();
@@ -101,11 +105,13 @@ app.post('/travelInfo', (req, res) => {
   let url;
   const cityArray = JSON.parse(req.body.cityNames);
   const countdowns = JSON.parse(req.body.countdowns);
+  servDepartDates = JSON.parse(req.body.departDates);
+  servReturnDates = JSON.parse(req.body.returnDates);
   // flush all the arrays to avoid repetition
   imageUrl = [];
   cityArrayNew = [];
-  cities = [];
-  cDowns = [];
+  servCityArray = [];
+  serCountdowns = [];
   sortedImageUrl = [];
   sortedCities = [];
   map = new Map();
@@ -140,8 +146,8 @@ app.post('/travelInfo', (req, res) => {
               .then(res => res.json())
               .then(data => {
                 imageUrl.push(data.hits[0].largeImageURL);
-                cities.push(map.get(cityArrayNew[k]));
-                cDowns.push(mapC.get(cityArrayNew[k]));
+                servCityArray.push(map.get(cityArrayNew[k]));
+                serCountdowns.push(mapC.get(cityArrayNew[k]));
                 count++;
                 if (count == cityArrayNew.length) {
                   res.redirect("/travelInfo");
@@ -157,40 +163,79 @@ app.post('/travelInfo', (req, res) => {
 
 // get route for the '/travelInfo' route that renders the travel information
 app.get('/travelInfo', (req, res) => {
-  let indexMap = new Map();     //mao to save the indexes of an unsorted countdowns array
-  for (let i = 0; i < cDowns.length; i++) {
-    indexMap.set(cDowns[i], i);
+  let indexMap = new Map(); //mao to save the indexes of an unsorted countdowns array
+  for (let i = 0; i < serCountdowns.length; i++) {
+    indexMap.set(serCountdowns[i], i);
   }
-  cDowns.sort(function(x, y) {    //sorting the countdown array
+  serCountdowns.sort(function(x, y) { //sorting the countdown array
     return x - y
   });
   //flush the already sorted arrays
   let sortedImageUrl = [];
   let sortedCities = [];
   //fill the arrays according to the sorted countdown array so that the values are moved around correctly
-  for (let i = 0; i < cDowns.length; i++) {
-    let index = indexMap.get(cDowns[i]);
+  for (let i = 0; i < serCountdowns.length; i++) {
+    let index = indexMap.get(serCountdowns[i]);
     sortedImageUrl.push(imageUrl[index]);
-    sortedCities.push(cities[index]);
+    sortedCities.push(servCityArray[index]);
   }
   imageUrl = sortedImageUrl;
-  cities = sortedCities;
-  res.render('travelInfo', {      //call the ejs file
+  servCityArray = sortedCities;
+  res.render('travelInfo', { //call the ejs file
     imageUrl: sortedImageUrl,
     cityArray: sortedCities,
-    countdowns: cDowns,
+    countdowns: serCountdowns,
   });
 })
 
 // post route for '/travelInfo-ejs' that is triggered when on '/travelInfo' page an entry is removed
 app.post('/travelInfo-ejs', (req, res) => {
   const removed = req.body.deletedCity;
-  for (let i = 0; i < cities.length; i++) {
-    if (cities[i].trim() === removed.trim()) { //find the removed item and delete its counterparts in the other arrays
-      cities.splice(i, 1);
-      cDowns.splice(i, 1);
+  for (let i = 0; i < servCityArray.length; i++) {
+    if (servCityArray[i].trim() === removed.trim()) { //find the removed item and delete its counterparts in the other arrays
+      servCityArray.splice(i, 1);
+      serCountdowns.splice(i, 1);
       imageUrl.splice(i, 1);
     }
   }
   res.redirect("/travelInfo");
+})
+
+// post route for waether data
+app.post('/weatherInfo', (req, res) => {
+  const city = req.body.cityName;
+  let country;
+  // use country-code-lookup package
+  if (lookup.byCountry(req.body.countryName) !== null) {
+    country = lookup.byCountry(req.body.countryName).iso2;
+  } else if (lookup.byIso(req.body.countryName) !== null) {
+    country = lookup.byIso(req.body.countryName).iso2;
+  } else {
+    country = lookup.byFips(req.body.countryName).iso2;
+  }
+
+  // construct the query url for Geonames api
+  const geoBaseUrl = process.env.geoUrl;
+  const geoUsername = process.env.geoUsername;
+  const url = geoBaseUrl + city + "&country=" + country + geoUsername;
+
+  const weatherbitBaseUrl = process.env.weatherbitBaseUrl;
+  const weatherbitApiKey = process.env.weatherbitApiKey;
+
+  // start apis query
+  let longitude, lattitude;
+  fetch(url)
+    .then(resp => resp.json())
+    .then(data => {
+      longitude = data.postalcodes[0].lng;
+      lattitude = data.postalcodes[0].lat;
+      const bitUrl = weatherbitBaseUrl + lattitude + "&lon=" + longitude + "&start_date=2019-05-01&end_date=2019-05-02" +  weatherbitApiKey;
+      console.log(bitUrl);
+      res.send(data);
+    })
+    .catch(function(error){
+      console.log("Not found!");
+      res.send("Not available!");
+    })
+
 })

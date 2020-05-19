@@ -158,21 +158,21 @@ function addNewEntry() {
     const departDateVar = new Date(newDepartDate).getTime();
     const returnDateVar = new Date(newReturnDate).getTime();
     const now = new Date().getTime();
-    const countDown = departDateVar - now;
+    const countDown = Math.floor((departDateVar - now) / (1000 * 60 * 60 * 24));
     // revise the city array so that is it more known to other APIs such as pixabay
     let newCityEdit = newCityEntry;
     if (newCityEdit.includes(',')) {
       newCityEdit = newCityEntry.split(',');
       newCityEdit = newCityEdit[0] + "," + newCityEdit[newCityEdit.length - 1]; //keeping the city name and country
     }
-    if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar) {
+    if (!cityArray.includes(newCityEdit) && departDateVar < returnDateVar && countDown >= 0) {
       //add the new entry
       cityArray.push(newCityEdit.trim());
       departDatesArray.push(new Date(newDepartDate).toLocaleDateString("en-EN", options));
       returnDatesArray.push(new Date(newReturnDate).toLocaleDateString("en-EN", options));
-      countdownArray.push(Math.floor(countDown / (1000 * 60 * 60 * 24)));
-      /* ort the arrays based on countdowns */
-      let iMap = new Map(); //mao to save the indexes of an unsorted countdowns array
+      countdownArray.push(Math.floor(countDown));
+      /* sort the arrays based on countdowns */
+      let iMap = new Map(); //map to save the indexes of an unsorted countdowns array
       for (let i = 0; i < countdownArray.length; i++) {
         iMap.set(countdownArray[i], i);
       }
@@ -208,6 +208,9 @@ function addNewEntry() {
     else if (departDateVar >= returnDateVar) {
       displayMessage("Check your dates!");
     }
+    else if (countDown < 0) {
+      displayMessage("Change the departure date!");
+    }
   }
   else {
     displayMessage("Fill in the required fields!");
@@ -224,9 +227,13 @@ $("#addBtn").click(function() {
       travelItem.setAttribute('class', 'travelItem');
       travelItem.innerHTML = '<Strong>' + cityArray[i] + '</Strong>';
       if (countdownArray[i] == 1) {
-        travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' day )</span></Strong>';
-      } else {
-        travelItem.innerHTML += '<Strong><span class="countdownSpan">( in ' + countdownArray[i] + ' days )</span></Strong>';
+        travelItem.innerHTML += '<Strong><span class="countdownSpan">(in ' + countdownArray[i] + ' day)</span></Strong>';
+      }
+      else if (countdownArray[i] == 0) {
+        travelItem.innerHTML += '<Strong><span class="countdownSpan">(Today)</span></Strong>';
+      }
+      else {
+        travelItem.innerHTML += '<Strong><span class="countdownSpan">(in ' + countdownArray[i] + ' days)</span></Strong>';
       }
       travelItem.innerHTML += '<i class="fas fa-trash-alt"></i>';
       $("#travelListId").append(travelItem);
@@ -281,9 +288,34 @@ function displayMessage(msg) {
   }, 2000)
 }
 
+// event listener to update the values of countdowns
+window.onbeforeunload = updateValues;
+
+function updateValues() {
+  for (let i = 0; i < cityArray.length; i++) {
+    const departDate = departDatesArray[i];
+    const departDateVar = new Date(departDate).getTime();
+    const now = new Date().getTime();
+    const countDown = departDateVar - now;
+    countdownArray[i] = Math.floor(countDown / (1000 * 60 * 60 * 24));
+    if (countdownArray[i] < 0) {
+      cityArray.splice(i, 1);
+      departDatesArray.splice(i, 1);
+      returnDatesArray.splice(i, 1);
+      countdownArray.splice(i, 1);
+    }
+  }
+  // update local storage
+  localStorage.setItem('cities', JSON.stringify(cityArray));
+  localStorage.setItem('departs', JSON.stringify(departDatesArray));
+  localStorage.setItem('returns', JSON.stringify(returnDatesArray));
+  localStorage.setItem('countdowns', JSON.stringify(countdownArray));
+}
+
 export {
   closeAutoList,
   addAutoCompleteList,
   addNewEntry,
   displayMessage,
+  updateValues,
 }

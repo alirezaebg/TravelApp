@@ -41,6 +41,28 @@ allRemoveBtns.forEach(inp => {
   })
 });
 
+document.querySelectorAll('.weather-btn').forEach(inp => {
+  let tripTo = inp.parentNode.parentNode.firstElementChild.firstElementChild.firstElementChild.textContent;
+  tripTo = tripTo.substring("Trip to: ".length).trim();
+  let arr, city, country;
+  if (tripTo.includes(",")) {
+    arr = tripTo.split(",");
+    city = arr[0].trim();
+    country = arr[1].trim();
+  }
+  else {
+    arr = tripTo.split("-");
+    city = arr[0].trim();
+    country = arr[1].trim();
+  }
+  inp.addEventListener("click", function() {
+    postForm("http://localhost:3000/weatherInfo", {
+      cityName: city,
+      countryName: country,
+    })
+  })
+})
+
 // post data to the server side to find the city name suggestions
 const postForm = async (url = '', data = {}) => {
   const response = await fetch(url, {
