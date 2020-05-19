@@ -6,7 +6,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const https = require('https');
 const fetch = require("node-fetch");
-const lookup = require('country-code-lookup')
+const lookup = require('country-code-lookup');
+const getNextDate = require('get-next-date');
 
 dotenv.config();
 // endpoints
@@ -220,17 +221,30 @@ app.post('/weatherInfo', (req, res) => {
   const url = geoBaseUrl + city + "&country=" + country + geoUsername;
 
   const weatherbitBaseUrl = process.env.weatherbitBaseUrl;
+  const weatherBitSecondUrl = process.env.weatherBitSecondUrl;
   const weatherbitApiKey = process.env.weatherbitApiKey;
 
   // start apis query
-  let longitude, lattitude;
+  let longitude, lattitude, start, end;
+  for (let i = 0; i < servCityArray.length; i++) {
+    if (servCityArray[i].includes(city)) {
+      start = servDepartDates[i];
+      end = servReturnDates[i];
+    }
+  }
+  let startArr = start.split("/");
+  start = (startArr[2]-1) + "-" + startArr[0] + "-" + startArr[1];
+  end = new Date(getNextDate(start));
+  end =  end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate();
   fetch(url)
     .then(resp => resp.json())
     .then(data => {
       longitude = data.postalcodes[0].lng;
       lattitude = data.postalcodes[0].lat;
-      const bitUrl = weatherbitBaseUrl + lattitude + "&lon=" + longitude + "&start_date=2019-05-01&end_date=2019-05-02" +  weatherbitApiKey;
+      const bitUrl = weatherbitBaseUrl + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;
+      const bitUrlCurr = weatherBitSecondUrl + lattitude + "&lon=" + longitude + weatherbitApiKey;
       console.log(bitUrl);
+      console.log(bitUrlCurr);
       res.send(data);
     })
     .catch(function(error){
