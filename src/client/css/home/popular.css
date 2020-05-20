@@ -71,3 +71,39 @@
   color: #fff;
   font-size: 2rem;
 }
+
+@media (min-width: 767px) and (max-width: 1025px) {
+  .popular-title h1 {
+    font-size: 2rem;
+  }
+
+  .popular-collage {
+    grid-template-areas: "a b"
+                         "c d"
+                         "e f";
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 30px 30px;
+    margin-top: 4%;
+  }
+}
+
+@media (max-width: 767px) {
+  .popular-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .popular-collage {
+    grid-template-areas: "a"
+                         "b"
+                         "c"
+                         "d"
+                         "e"
+                         "f";
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 20px 20px;
+    margin-top: 3%;
+  }
+}
+}

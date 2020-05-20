@@ -35,3 +35,48 @@
   width: 140px;
   height: 50px;
 }
+
+@media (min-width: 767px) and (max-width: 1025px) {
+  .newsletter {
+    font-size: 1rem;
+  }
+
+  .newsletter-label h4 {
+    font-size: 1.3rem;
+  }
+
+  .email-box {
+    font-size: 1.1rem;
+    width: 250px;
+  }
+
+  .btn-subscribe {
+    width: 120px;
+  }
+}
+
+@media (max-width: 767px) {
+  .newsletter {
+    flex-direction: column;
+    background-color: #ff9d76;
+    font-size: 1rem;
+  }
+
+  .newsletter {
+    font-size: 1rem;
+  }
+
+  .newsletter-label h4 {
+    font-size: 1.2rem;
+  }
+
+  .email-box {
+    font-size: 1rem;
+    width: 180px;
+  }
+
+  .btn-subscribe {
+    width: 100px;
+    font-size: 1rem;
+  }
+}
