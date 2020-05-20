@@ -140,3 +140,45 @@ main {
   transform: translateX(-120%);
   transition: 0.6s;
 }
+
+/* travel info section */
+#travel-info {
+  /* grid-area: b; */
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-tile {
+  font-size: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 100%;
+  grid-template-areas: "c1 c2";
+  justify-content: space-between;
+  margin: 10px 20px 0 20px;
+  border: 2px solid #000;
+  padding: 25px 20px;
+  font-weight: 500;
+}
+
+.hist-part, .curr-part {
+  display: flex;
+  flex-direction: column;
+}
+
+.histPart {
+  grid-area: c1;
+}
+
+.currPart {
+  grid-area: c2;
+}
+
+.stayRight {
+  transform: rotateX(-90deg);
+}
+
+.slideFromRightToLeft {
+  transform: rotateX(0);
+  transition: 0.7s;
+}

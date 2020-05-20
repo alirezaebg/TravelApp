@@ -195,6 +195,8 @@ app.post('/travelInfo-ejs', (req, res) => {
   for (let i = 0; i < servCityArray.length; i++) {
     if (servCityArray[i].trim() === removed.trim()) { //find the removed item and delete its counterparts in the other arrays
       servCityArray.splice(i, 1);
+      servDepartDates.splice(i, 1);
+      servReturnDates.splice(i, 1);
       serCountdowns.splice(i, 1);
       imageUrl.splice(i, 1);
     }
@@ -225,7 +227,7 @@ app.post('/weatherInfo', (req, res) => {
   const weatherbitApiKey = process.env.weatherbitApiKey;
 
   // start apis query
-  let longitude, lattitude, start, end;
+  let longitude, lattitude, start, end, bitUrlHistory, bitUrlCurrent;
   for (let i = 0; i < servCityArray.length; i++) {
     if (servCityArray[i].includes(city)) {
       start = servDepartDates[i];
@@ -241,15 +243,32 @@ app.post('/weatherInfo', (req, res) => {
     .then(data => {
       longitude = data.postalcodes[0].lng;
       lattitude = data.postalcodes[0].lat;
-      const bitUrl = weatherbitBaseUrl + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;
-      const bitUrlCurr = weatherBitSecondUrl + lattitude + "&lon=" + longitude + weatherbitApiKey;
-      console.log(bitUrl);
-      console.log(bitUrlCurr);
-      res.send(data);
+      bitUrlHistory = weatherbitBaseUrl + "lat=" + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;   //get histroical weather data
+      bitUrlCurrent = weatherBitSecondUrl + "lat=" + lattitude + "&lon=" + longitude + weatherbitApiKey;   //get current weather data
+      console.log(bitUrlHistory);
+      console.log(bitUrlCurrent);
+      Promise.all([
+        fetch(bitUrlHistory).then(value => value.json()),
+        fetch(bitUrlCurrent).then(value => value.json())
+      ])
+      .then(files => {
+        res.send(files);
+      })
+
     })
     .catch(function(error){
-      console.log("Not found!");
-      res.send("Not available!");
+      console.log("Geoname did not find a relevant data!");
+      bitUrlHistory = weatherbitBaseUrl + "city=" + city + "&country=" + country + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;
+      bitUrlCurrent = weatherBitSecondUrl + "city=" + city + "&country=" + country + weatherbitApiKey;
+      console.log(bitUrlHistory);
+      console.log(bitUrlCurrent);
+      Promise.all([
+        fetch(bitUrlHistory).then(value => value.json()),
+        fetch(bitUrlCurrent).then(value => value.json())
+      ])
+      .then(files => {
+        res.send(files);
+      })
     })
 
 })
