@@ -81,7 +81,7 @@ document.querySelectorAll('.weather-btn').forEach(inp => {
         const currIcon = data[1].data[0].weather.icon; //current weather code
         const currDate = data[1].data[0].datetime; //current date
         createWeatherInfoTile(histTemp, histMaxTemp, histMinTemp, histDate,
-          currTemp, currDescription, currIcon, currDate, date);
+          currTemp, currDescription, currIcon, currDate, date, city, country);
       })
   })
 })
@@ -107,7 +107,7 @@ const postForm = async (url = '', data = {}) => {
 }
 
 function createWeatherInfoTile(hTemp, hMinTemp, hMaxTemp, hDate,
-  cTemp, cDescription, cIcon, cDate, date) {
+  cTemp, cDescription, cIcon, cDate, date, city, country) {
     const infoDiv = document.getElementById("travel-info");
     //clear the travel info section
     while (infoDiv.firstChild) {
@@ -119,7 +119,8 @@ function createWeatherInfoTile(hTemp, hMinTemp, hMaxTemp, hDate,
     histPart.classList.add("hist-part");
     currPart.classList.add("curr-part");
     weatherTile.classList.add("weather-tile", "stayRight");
-    histPart.innerHTML = "<span>Forecast for: " + date + " (Based on last year)</span><br><span>Temperature: " + hTemp + " C</span><br><span>Min: "
+    histPart.innerHTML = "<span>Destination: " + city + ", " + country + "<br></span><span>Forecast for: " + date
+      + "<br>(Based on last year)</span><br><span>Temperature: " + hTemp + " C</span><br><span>Min: "
       + hMinTemp + " C</span><br></span>Max: " + hMaxTemp + " C</span><br></span>";
     currPart.innerHTML = "<span>Current weather:</span><br><span>Temperature: " + cTemp + " C</span><br><span>Description: "
         + cDescription + " </span><br><span><img src=https://www.weatherbit.io/static/img/icons/" + cIcon + ".png></span>";

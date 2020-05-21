@@ -171,7 +171,7 @@
   z-index: 99;
   /*position the autocomplete items to be the same width as the container:*/
   top: 100%;
-  left: 140px;
+  left: 120px;
   right: 0;
   width: 250px;
 }
@@ -273,11 +273,18 @@
   }
 
   .listview {
-    margin-top: 2%;
+    margin-bottom: 5%;
   }
 
   .inputform-title, .destination, .departure, .return {
     margin: 2% 0;
+  }
+
+  .display-div h6 {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    transform: translate(-15%, -15%);
   }
 }
 
@@ -292,14 +299,20 @@
   }
 
   .select-title {
-    width: 110px;
+    height: 100%;
+    text-align: center;
+    width: 280px;
+    border-radius: 5px 5px 0 0;
     margin-bottom: 0;
     font-size: 0.9rem;
   }
 
   .input-text {
     font-size: 1rem;
-    width: 180px;
+    border: 2px solid #216353;
+    padding-left: 2%;
+    border-radius: 0 0 5px 5px;
+    width: 280px;
   }
 
   .btn-inputform {
@@ -307,14 +320,23 @@
     width: 140px;
   }
 
+  .flatpickr-calendar {
+    right: 0;
+  }
+
   .listview {
-    margin-top: 2%;
+    margin-bottom: 5%;
+  }
+
+  .travelList {
+    width: 285px;
+    font-size: 0.9rem;
   }
 
   .cityNamesAuto {
-    left: 110px;
+    left: 0;
     right: 0;
-    width: 180px;
+    width: 280px;
   }
 
   .btn-listview {
@@ -324,6 +346,8 @@
 
   .inputform-title, .destination, .departure, .return {
     margin: 2% 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .carousel-control-prev, .carousel-control-next {

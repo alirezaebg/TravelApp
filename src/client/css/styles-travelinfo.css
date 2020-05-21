@@ -182,3 +182,98 @@ main {
   transform: rotateX(0);
   transition: 0.7s;
 }
+
+@media (min-width: 767px) and (max-width: 1025px) {
+  .tile img {
+    width: 300px;
+    padding: 0 0 0 20px;
+    order: 2;
+  }
+
+  .tile {
+    flex-direction: column;
+  }
+
+  .info-btn {
+    align-items: flex-start;
+    margin-right: 20px;
+    padding: 25px 20px;
+    order: 3;
+  }
+
+  .tile-text {
+    order: 1;
+  }
+
+  .weather-tile {
+    font-size: 1.1rem;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: "c1"
+                         "c2";
+    justify-content: space-between;
+    margin: 10px 20px 0 20px;
+    padding: 25px 20px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  main {
+    display: flex;
+    flex-direction: column;
+
+  }
+  .tile img {
+    width: 250px;
+    padding: 0 0 0 20px;
+    order: 2;
+  }
+
+  .tile {
+    flex-direction: column;
+    padding: 1% 0;
+  }
+
+  .info-btn {
+    align-items: flex-start;
+    margin-right: 20px;
+    padding: 25px 20px;
+    order: 3;
+  }
+
+  .tile-text {
+    order: 1;
+  }
+
+  .weather-tile {
+    font-size: 1.1rem;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: "c1"
+                         "c2";
+    justify-content: space-between;
+    margin: 10px 20px 0 20px;
+    padding: 25px 20px;
+  }
+
+  .logo img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .title {
+    padding: 2% 5%;
+    flex-direction: column;
+  }
+
+  .title a {
+    order: 1;
+    font-size: 1.2rem;
+  }
+
+  .title h3 {
+    order: 2;
+    font-size: 1.5rem;
+  }
+}
