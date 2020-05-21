@@ -3,10 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap');
 /* custom style files */
-@import "home/header.css";
-@import "home/main.css";
-@import "home/newsletter.css";
-@import "home/popular.css";
-@import "home/highlights.css";
-@import "home/footer.css";
-@import "home/animation.css";
+@import "home/header.scss";
+@import "home/main.scss";
+@import "home/newsletter.scss";
+@import "home/popular.scss";
+@import "home/highlights.scss";
+@import "home/footer.scss";

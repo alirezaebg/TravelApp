@@ -7,8 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <!-- Custome styles -->
-  <link rel="stylesheet" href="../css/styles-travelinfo.css">
   <!-- Font awesome script -->
   <script src="https://kit.fontawesome.com/c5971a1024.js" crossorigin="anonymous"></script>
 </head>
@@ -37,7 +35,7 @@
     <!-- section to include travel destination -->
     <section class="travel-dest">
       <% for (let i = 0; i<imageUrl.length; i++) { %>
-      <div class="tile">
+      <div class="ejs-tile">
         <div class="tile-text">
           <div class="tile-data">
             <h5>Trip to: <%= cityArray[i] %></h5>
@@ -55,7 +53,7 @@
     </section>
     <!-- section to include travel info -->
     <section id="travel-info">
-      
+
     </section>
   </main>
 
@@ -68,8 +66,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <!-- custom javascript -->
-  <script type="module" src="../js/travelinfo.js"></script>
+  <script src="info.bundle.js"></script>
+
+  </script>
 
 </body>
 

@@ -1,15 +1,3 @@
-import {
-  addAutoCompleteList
-} from './dom.js';
-
-import {viewListPressed} from './dom.js'
-import {cityArray, departDatesArray, returnDatesArray, countdownArray} from './dom.js'
-import {addNewEntry, displayMessage, updateValues} from './dom.js'
-
-// event listener for the input text field (destination)
-const dest_box = document.getElementById('destination-text');
-dest_box.addEventListener('input', citySearch);
-
 // function that calls google places api and populates the auto complete list
 function citySearch(e) {
   let name = e.target.value;
@@ -18,7 +6,7 @@ function citySearch(e) {
     postData('http://localhost:3000/places', { //calls for /places route
         cityName: name
       })
-      .then(addAutoCompleteList) //populates the city auto complete list
+      .then(Client.addAutoCompleteList) //populates the city auto complete list
   } else {
     const auto = document.getElementById("auto");
     if (auto) auto.remove();
@@ -45,13 +33,18 @@ const postData = async (url = '', data = {}) => {
   }
 }
 
-// Event listener for the travel info button
-$(".btn-lookUp").click(function() {
-  updateValues();
-  document.getElementById("formCityNames").value = JSON.stringify(cityArray);
-  document.getElementById("formDepartDates").value = JSON.stringify(departDatesArray);
-  document.getElementById("formReturnDates").value = JSON.stringify(returnDatesArray);
-  document.getElementById("formCountdowns").value = JSON.stringify(countdownArray);
-  if (cityArray.length > 0) $("#message").submit();
-  else displayMessage("Add a destination to list!");
-});
+function lookupHandler() {
+  Client.updateValues();
+  document.getElementById("formCityNames").value = JSON.stringify(Client.cityArray);
+  document.getElementById("formDepartDates").value = JSON.stringify(Client.departDatesArray);
+  document.getElementById("formReturnDates").value = JSON.stringify(Client.returnDatesArray);
+  document.getElementById("formCountdowns").value = JSON.stringify(Client.countdownArray);
+  if (Client.cityArray.length > 0) $("#message").submit();
+  else Client.displayMessage("Add a destination to list!");
+}
+
+export {
+  citySearch,
+  lookupHandler,
+  postData,
+}

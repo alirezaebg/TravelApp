@@ -32,11 +32,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // ejs setup
-app.set('views', './src/client/views');
+app.set('views', 'dist');
 app.set('view engine', 'ejs');
 
 // use all the static files
-app.use(express.static('./src/client'));
+app.use(express.static('dist'));
 
 // spin up the server
 const port = 3000;
@@ -46,9 +46,7 @@ const server = app.listen(port, () => {
 
 // get request to home route
 app.get('/', function(req, res) {
-  res.sendFile('/client/views/index.html', {
-    root: __dirname + '/..'
-  });
+  res.sendFile('dist/index.html');
 })
 
 // post request to '/places' route which is used for google places api
@@ -157,7 +155,6 @@ app.post('/travelInfo', (req, res) => {
           }
         }
       })
-
   }
 
 })
@@ -245,8 +242,6 @@ app.post('/weatherInfo', (req, res) => {
       lattitude = data.postalcodes[0].lat;
       bitUrlHistory = weatherbitBaseUrl + "lat=" + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;   //get histroical weather data
       bitUrlCurrent = weatherBitSecondUrl + "lat=" + lattitude + "&lon=" + longitude + weatherbitApiKey;   //get current weather data
-      console.log(bitUrlHistory);
-      console.log(bitUrlCurrent);
       Promise.all([
         fetch(bitUrlHistory).then(value => value.json()),
         fetch(bitUrlCurrent).then(value => value.json())
@@ -260,8 +255,6 @@ app.post('/weatherInfo', (req, res) => {
       console.log("Geoname did not find a relevant data!");
       bitUrlHistory = weatherbitBaseUrl + "city=" + city + "&country=" + country + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;
       bitUrlCurrent = weatherBitSecondUrl + "city=" + city + "&country=" + country + weatherbitApiKey;
-      console.log(bitUrlHistory);
-      console.log(bitUrlCurrent);
       Promise.all([
         fetch(bitUrlHistory).then(value => value.json()),
         fetch(bitUrlCurrent).then(value => value.json())

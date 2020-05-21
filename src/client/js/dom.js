@@ -1,5 +1,3 @@
-// variable to get header tabs
-const headerTabs = document.querySelectorAll('.nav-links a');
 // variable to store list of cities that user has enetered
 export let cityArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
 export let departDatesArray = localStorage.getItem('departs') ? JSON.parse(localStorage.getItem('departs')) : [];
@@ -7,38 +5,6 @@ export let returnDatesArray = localStorage.getItem('returns') ? JSON.parse(local
 export let countdownArray = localStorage.getItem('countdowns') ? JSON.parse(localStorage.getItem('countdowns')) : [];
 // variable to hold the state of 'view my list' button
 export let viewListPressed = false;
-
-// Change header links appearance when hovering over them
-headerTabs.forEach(heading => {
-  //hover over
-  heading.addEventListener('mouseover', function() {
-    heading.parentElement.classList.add('header-tab');
-  })
-  //hover out
-  heading.addEventListener('mouseout', function() {
-    heading.parentElement.classList.remove('header-tab');
-  })
-})
-
-//Scroll to section when clicking on the header tabs
-headerTabs.forEach(heading => {
-  heading.addEventListener('click', function(e) {
-    e.preventDefault();
-    const eventId = e.target.getAttribute('href');
-    if (eventId != null && eventId !== '#') {
-      console.log(eventId);
-      document.getElementById(eventId).scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
-  });
-});
-
-// On click event close the auto complete box for city suggestion
-document.addEventListener("click", function(e) {
-  closeAutoList(e.target);
-  closeTravelList(e.target);
-});
 
 // function to close the open city-autocomplete list
 function closeAutoList(e) {
@@ -140,9 +106,6 @@ function addAutoCompleteList(data) {
   }
 }
 
-// event listner for '+Add to list' button
-$(".btn-addToList").click(addNewEntry);
-
 function addNewEntry() {
   /* Local storage code goes here */
   if ($("#destination-text").val().length > 0 && $('#flatpickrDept').val().length > 0 &&
@@ -217,8 +180,7 @@ function addNewEntry() {
   }
 }
 
-// event listener for 'View my list' button
-$("#addBtn").click(function() {
+function handleViewMyList() {
   $("#travelListId").toggleClass("toggleList");
   if (!viewListPressed) {
     for (let i = 0; i < cityArray.length; i++) {
@@ -267,7 +229,7 @@ $("#addBtn").click(function() {
   } else {
     removeTravelListItems();
   }
-})
+}
 
 // function to remove all child elements of the travel list
 function removeTravelListItems() {
@@ -288,8 +250,6 @@ function displayMessage(msg) {
   }, 2000)
 }
 
-// event listener to update the values of countdowns
-window.onbeforeunload = updateValues;
 
 function updateValues() {
   for (let i = 0; i < cityArray.length; i++) {
@@ -314,7 +274,10 @@ function updateValues() {
 
 export {
   closeAutoList,
+  closeTravelList,
   addAutoCompleteList,
+  removeTravelListItems,
+  handleViewMyList,
   addNewEntry,
   displayMessage,
   updateValues,

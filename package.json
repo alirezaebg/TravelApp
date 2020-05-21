@@ -9,19 +9,40 @@
     "country-code-lookup": "0.0.17",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.2",
+    "ejs-webpack-loader": "^2.2.2",
     "express": "^4.17.1",
+    "fibers": "^5.0.0",
     "get-next-date": "^1.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-fetch": "^2.6.0",
-    "webpack": "^4.43.0"
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "sass": "^1.26.5",
+    "terser-webpack-plugin": "^3.0.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "workbox-webpack-plugin": "^5.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
-    "babel-loader": "^8.1.0"
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.1",
+    "css-loader": "^3.5.3",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/server/server.js"
+    "start": "node ./src/server/server.js",
+    "build-home": "webpack --config webpack.home.js",
+    "build-info": "webpack --config webpack.info.js",
+    "build-prod": "npm run build-home && npm run build-info",
+    "build-dev": "webpack --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
