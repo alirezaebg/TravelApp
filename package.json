@@ -39,9 +39,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server/server.js",
-    "build-home": "webpack --config webpack.home.js",
-    "build-info": "webpack --config webpack.info.js",
-    "build-prod": "npm run build-home && npm run build-info",
+    "build-prod": "webpack --config webpack.prod.js",
     "build-dev": "webpack --config webpack.dev.js"
   },
   "repository": {
