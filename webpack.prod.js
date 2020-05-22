@@ -10,114 +10,123 @@ const {
 } = require('clean-webpack-plugin');
 
 module.exports = [{
-  entry: {
-    app: './src/client/index.js',
-  },
-  mode: 'production',
-  output: {
-    libraryTarget: 'var',
-    library: 'Client',
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  optimization: {
-    minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  },
-  module: {
-    rules: [{
-        test: '/\.js$/',
-        exclude: /node_modules/,
-        loader: "babel-loader"
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            // limit: 8000, // Convert images < 8kb to base64 strings
-            name: 'media/[name].[ext]'
-          }
-        }]
-      }
+    entry: {
+      app: './src/client/index.js',
+    },
+    mode: 'production',
+    output: {
+      libraryTarget: 'var',
+      library: 'Client',
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+    optimization: {
+      minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
+    module: {
+      rules: [{
+          test: '/\.js$/',
+          exclude: /node_modules/,
+          loader: "babel-loader"
+        },
+        {
+          test: /\.scss$/,
+          use: ['style-loader', 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [{
+            loader: 'file-loader',
+            options: {
+              // limit: 8000, // Convert images < 8kb to base64 strings
+              name: 'media/[name].[ext]'
+            }
+          }]
+        }
+      ]
+    },
+    plugins: [
+      new HtmlWebPackPlugin({
+        template: "./src/client/views/index.html",
+        filename: "./index.html",
+      }),
+      // new MiniCssExtractPlugin({
+      //   filename: '[name].css'
+      // }),
+      new CleanWebpackPlugin({
+        // Simulate the removal of files
+        dry: true,
+        // Write Logs to Console
+        verbose: true,
+        // Automatically remove all unused webpack assets on rebuild
+        cleanStaleWebpackAssets: true,
+        protectWebpackAssets: false
+      }),
+      new WorkboxPlugin.GenerateSW(),
     ]
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/client/views/index.html",
-      filename: "./index.html",
-    }),
-    // new MiniCssExtractPlugin({
-    //   filename: '[name].css'
-    // }),
-    new CleanWebpackPlugin({
-      // Simulate the removal of files
-      dry: true,
-      // Write Logs to Console
-      verbose: true,
-      // Automatically remove all unused webpack assets on rebuild
-      cleanStaleWebpackAssets: true,
-      protectWebpackAssets: false
-    }),
-    new WorkboxPlugin.GenerateSW(),
-  ]
 
-},
-{
-  entry: {
-    info: './src/client/info.js',
   },
-  mode: 'production',
-  output: {
-    libraryTarget: 'var',
-    library: 'Info',
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  optimization: {
-    minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  },
-  module: {
-    rules: [{
-        test: '/\.js$/',
-        exclude: /node_modules/,
-        loader: "babel-loader"
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            // limit: 8000, // Convert images < 8kb to base64 strings
-            name: 'media/[name].[ext]'
-          }
-        }]
-      },
+  {
+    entry: {
+      info: './src/client/info.js',
+    },
+    mode: 'production',
+    output: {
+      libraryTarget: 'var',
+      library: 'Info',
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+    optimization: {
+      minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
+    module: {
+      rules: [{
+          test: '/\.js$/',
+          exclude: /node_modules/,
+          loader: "babel-loader"
+        },
+        {
+          test: /\.scss$/,
+          use: ['style-loader', 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [{
+            loader: 'file-loader',
+            options: {
+              // limit: 8000, // Convert images < 8kb to base64 strings
+              name: 'media/[name].[ext]'
+            }
+          }]
+        },
+        {
+          test: /\.ejs$/i,
+          use: 'raw-loader',
+        },
+      ]
+    },
+    plugins: [
+      // new CopyPlugin({
+      //   patterns: [{
+      //     from: './src/client/views/travelInfo.ejs',
+      //     to: './travelInfo.ejs',
+      //     toType: 'file',
+      //   }, ],
+      // }),
+      new HtmlWebPackPlugin({
+        template: "./src/client/views/travelInfo.ejs",
+        filename: "./travelInfo.ejs",
+      }),
+      new CleanWebpackPlugin({
+        // Simulate the removal of files
+        dry: true,
+        // Write Logs to Console
+        verbose: true,
+        // Automatically remove all unused webpack assets on rebuild
+        cleanStaleWebpackAssets: true,
+        protectWebpackAssets: false
+      }),
     ]
-  },
-  plugins: [
-    new CopyPlugin({
-      patterns: [{
-        from: './src/client/views/travelInfo.ejs',
-        to: './travelInfo.ejs',
-        toType: 'file',
-      }, ],
-    }),
-    new CleanWebpackPlugin({
-      // Simulate the removal of files
-      dry: true,
-      // Write Logs to Console
-      verbose: true,
-      // Automatically remove all unused webpack assets on rebuild
-      cleanStaleWebpackAssets: true,
-      protectWebpackAssets: false
-    }),
-  ]
-}]
+  }
+]

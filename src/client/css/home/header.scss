@@ -44,18 +44,20 @@ header {
 .nav-links li {
   display: inline-block;
   padding: 0 5%;
+  // margin-left: 30px;
 }
 
 .nav-links li a {
   text-decoration: none;
   color: #8105d8;
+  margin: 0 30px;
 }
 
 /* Classes that are used in dom.js */
 .header-tab {
   background-color: #b7efcd;
   transition: 0.5s;
-  margin-top: -1%;
+  // margin-top: -1%;
 }
 
 /* Tablet size */
