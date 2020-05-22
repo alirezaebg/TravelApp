@@ -1,7 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -107,13 +106,6 @@ module.exports = [{
       ]
     },
     plugins: [
-      // new CopyPlugin({
-      //   patterns: [{
-      //     from: './src/client/views/travelInfo.ejs',
-      //     to: './travelInfo.ejs',
-      //     toType: 'file',
-      //   }, ],
-      // }),
       new HtmlWebPackPlugin({
         template: "./src/client/views/travelInfo.ejs",
         filename: "./travelInfo.ejs",
