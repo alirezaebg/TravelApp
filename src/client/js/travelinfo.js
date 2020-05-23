@@ -25,9 +25,7 @@ function handleRemoveBtn(e) {
   localStorage.setItem('departs', JSON.stringify(Info.departDatesArray));
   localStorage.setItem('returns', JSON.stringify(Info.returnDatesArray));
   localStorage.setItem('countdowns', JSON.stringify(Info.countdownArray));
-  // postForm('http://localhost:3000/travelInfo-ejs', {
-  //   deletedCity: removed,
-  // });
+  
   fetch('http://localhost:3000/travelInfo-ejs', {
     method: 'POST',
     credentials: 'same-origin',

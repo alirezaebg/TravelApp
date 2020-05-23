@@ -242,7 +242,6 @@ function removeTravelListItems() {
 
 // function to print a message when using the form
 function displayMessage(msg) {
-  console.log(msg);
   $("#displayMsg").removeClass("hide");
   $("#displayMsg h6").text(msg);
   setTimeout(function() {
@@ -258,12 +257,19 @@ function updateValues() {
     const now = new Date().getTime();
     const countDown = departDateVar - now;
     countdownArray[i] = Math.floor(countDown / (1000 * 60 * 60 * 24));
-    if (countdownArray[i] < 0) {
-      cityArray.splice(i, 1);
-      departDatesArray.splice(i, 1);
-      returnDatesArray.splice(i, 1);
-      countdownArray.splice(i, 1);
+    let newCityArray = [], newDepartDatesArray = [], newReturnDatesArray = [], newCountdownArray = [];
+    for (let i = 0; i < cityArray.length; i++) {
+      if (countdownArray[i] >= 0) {
+        newCityArray.push(cityArray[i]);
+        newDepartDatesArray.push(departDatesArray[i]);
+        newReturnDatesArray.push(returnDatesArray[i]);
+        newCountdownArray.push(countdownArray[i]);
+      }
     }
+    cityArray = newCityArray;
+    countdownArray = newCountdownArray;
+    departDatesArray = newDepartDatesArray;
+    returnDatesArray = newReturnDatesArray;
   }
   // update local storage
   localStorage.setItem('cities', JSON.stringify(cityArray));

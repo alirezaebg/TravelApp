@@ -19,7 +19,7 @@ let imageUrl, //links to pixabay images on the server side
   mapC, //map between cityArray and countdowns
   servDepartDates, //departure dates on the server side
   servReturnDates, //return dates on the server side
-  serCountdowns; //countdowns on the server side
+  servCountdowns; //countdowns on the server side
 
 // intsance of the application
 const app = express();
@@ -110,7 +110,7 @@ app.post('/travelInfo', (req, res) => {
   imageUrl = [];
   cityArrayNew = [];
   servCityArray = [];
-  serCountdowns = [];
+  servCountdowns = [];
   sortedImageUrl = [];
   sortedCities = [];
   map = new Map();
@@ -146,7 +146,7 @@ app.post('/travelInfo', (req, res) => {
               .then(data => {
                 imageUrl.push(data.hits[0].largeImageURL);
                 servCityArray.push(map.get(cityArrayNew[k]));
-                serCountdowns.push(mapC.get(cityArrayNew[k]));
+                servCountdowns.push(mapC.get(cityArrayNew[k]));
                 count++;
                 if (count == cityArrayNew.length) {
                   res.redirect("/travelInfo");
@@ -162,18 +162,18 @@ app.post('/travelInfo', (req, res) => {
 // get route for the '/travelInfo' route that renders the travel information
 app.get('/travelInfo', (req, res) => {
   let indexMap = new Map(); //mao to save the indexes of an unsorted countdowns array
-  for (let i = 0; i < serCountdowns.length; i++) {
-    indexMap.set(serCountdowns[i], i);
+  for (let i = 0; i < servCountdowns.length; i++) {
+    indexMap.set(servCountdowns[i], i);
   }
-  serCountdowns.sort(function(x, y) { //sorting the countdown array
+  servCountdowns.sort(function(x, y) { //sorting the countdown array
     return x - y
   });
   //flush the already sorted arrays
   let sortedImageUrl = [];
   let sortedCities = [];
   //fill the arrays according to the sorted countdown array so that the values are moved around correctly
-  for (let i = 0; i < serCountdowns.length; i++) {
-    let index = indexMap.get(serCountdowns[i]);
+  for (let i = 0; i < servCountdowns.length; i++) {
+    let index = indexMap.get(servCountdowns[i]);
     sortedImageUrl.push(imageUrl[index]);
     sortedCities.push(servCityArray[index]);
   }
@@ -182,7 +182,7 @@ app.get('/travelInfo', (req, res) => {
   res.render('travelInfo', { //call the ejs file
     imageUrl: sortedImageUrl,
     cityArray: sortedCities,
-    countdowns: serCountdowns,
+    countdowns: servCountdowns,
   });
 })
 
@@ -194,7 +194,7 @@ app.post('/travelInfo-ejs', (req, res) => {
       servCityArray.splice(i, 1);
       servDepartDates.splice(i, 1);
       servReturnDates.splice(i, 1);
-      serCountdowns.splice(i, 1);
+      servCountdowns.splice(i, 1);
       imageUrl.splice(i, 1);
     }
   }
@@ -265,3 +265,5 @@ app.post('/weatherInfo', (req, res) => {
     })
 
 })
+
+module.exports = app
