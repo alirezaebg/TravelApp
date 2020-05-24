@@ -9,7 +9,8 @@ footer {
 .social {
   display: flex;
   flex-direction: row;
-  margin-bottom: 3%;
+  justify-content: space-between;
+  margin-bottom: 2%;
 }
 
 .copyright {
@@ -37,10 +38,24 @@ footer {
   margin: 4%;
 }
 
+.bibliography {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2%;
+  justify-content: center;
+
+}
+
+.bibliography p {
+  margin: 0 25px;
+}
+
 @media (min-width: 767px) and (max-width: 1025px) {
   footer {
     padding: 1% 4%;
   }
+
 }
 
 @media (max-width: 767px) {
@@ -59,4 +74,9 @@ footer {
     margin-right: 2%;
     width: 200px;
   }
+
+  .bibliography p {
+    margin: 0 5px;
+  }
+
 }

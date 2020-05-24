@@ -202,6 +202,12 @@
         <i class="fab fa-google-plus-square social-icon"></i>
       </div>
     </div>
+    <div class="bibliography">
+        <p>Geonames</p>
+        <p>Weatherbit.io</p>
+        <p>Google</p>
+        <p>Pixabay</p>
+    </div>
     <div class="copyright">
       <p>Copyright &copy; 2020 All rights reserved | Made by Alireza Ebadi Ghajari</p>
     </div>
@@ -222,12 +228,16 @@
   <script>
     // Check that service workers are supported
     if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js');
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then (function(registration) {
+          registration.update();
+        }).catch(function(error) {
+          console.log('Registration failed with ' + error);
         });
+      });
     }
-	</script>
+  </script>
 
 
 </body>

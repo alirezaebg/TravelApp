@@ -43,7 +43,7 @@ header {
 
 .nav-links li {
   display: inline-block;
-  padding: 0 5%;
+  padding: 0 2%;
   // margin-left: 30px;
 }
 
@@ -67,6 +67,10 @@ header {
     width: 120px;
     height: 120px;
   }
+
+  .nav-links li a {
+    margin: 0 15px;
+  }
 }
 
 /* mobile phone size */
@@ -78,8 +82,13 @@ header {
     padding: 25px 50px;
     height: 200px;
   }
+
   .logo img {
     width: 100px;
     height: 100px;
+  }
+  
+  .nav-links li a {
+    margin: 0 15px;
   }
 }
