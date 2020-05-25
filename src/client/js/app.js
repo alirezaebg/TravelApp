@@ -3,7 +3,7 @@ function citySearch(e) {
   let name = e.target.value;
   if (!name) return false;
   if (name.length >= 3) { //if user has entered the first three letters
-    postData('http://localhost:3000/places', { //calls for /places route
+    postData('/places', { //calls for /places route
         cityName: name
       })
       .then(Client.addAutoCompleteList) //populates the city auto complete list

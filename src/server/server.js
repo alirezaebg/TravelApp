@@ -39,7 +39,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('dist'));
 
 // spin up the server
-const port = 3000;
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
 const server = app.listen(port, () => {
   console.log(`server is up and running on port ${port}`);
 });
@@ -52,10 +55,10 @@ app.get('/', function(req, res) {
 // post request to '/places' route which is used for google places api
 app.post('/places', (req, res) => {
   const key = process.env.placesApiKey;
-  const baseUrl = process.env.placesApiUrl;
+  const baseUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?offset=3&input=";
   const city = req.body.cityName;
 
-  const url = baseUrl + city + key;
+  const url = baseUrl + city + "&key=" + key;
 
   https.get(url, (resp) => {
     const {
@@ -100,7 +103,7 @@ app.post('/places', (req, res) => {
 // post route for travel info
 app.post('/travelInfo', (req, res) => {
   const API_KEY = process.env.pixabayApiKey;
-  const pixabayUrl = process.env.pixabayApiUrl;
+  const pixabayUrl = "https://pixabay.com/api/?q=";
   let url;
   const cityArray = JSON.parse(req.body.cityNames);
   const countdowns = JSON.parse(req.body.countdowns);
@@ -117,7 +120,7 @@ app.post('/travelInfo', (req, res) => {
   mapC = new Map();
   count = 0;
   for (let i = 0; i < cityArray.length; i++) {
-    url = pixabayUrl + encodeURIComponent(cityArray[i]) + API_KEY;
+    url = pixabayUrl + encodeURIComponent(cityArray[i]) + "&key=" + API_KEY;
     // extract the country name
     let country = cityArray[i].split(',');
     country = country[country.length - 1];
@@ -140,7 +143,7 @@ app.post('/travelInfo', (req, res) => {
         if (count == cityArray.length) {
           count = 0;
           for (let k = 0; k < cityArrayNew.length; k++) {
-            url = pixabayUrl + encodeURIComponent(cityArrayNew[k]) + API_KEY;
+            url = pixabayUrl + encodeURIComponent(cityArrayNew[k]) + "&key=" + API_KEY;
             fetch(url)
               .then(res => res.json())
               .then(data => {
@@ -215,12 +218,12 @@ app.post('/weatherInfo', (req, res) => {
   }
 
   // construct the query url for Geonames api
-  const geoBaseUrl = process.env.geoUrl;
+  const geoBaseUrl = "http://api.geonames.org/postalCodeLookupJSON?placename=";
   const geoUsername = process.env.geoUsername;
-  const url = geoBaseUrl + city + "&country=" + country + geoUsername;
+  const url = geoBaseUrl + city + "&country=" + country + "&username=" + geoUsername;
 
-  const weatherbitBaseUrl = process.env.weatherbitBaseUrl;
-  const weatherBitSecondUrl = process.env.weatherBitSecondUrl;
+  const weatherbitBaseUrl = "https://api.weatherbit.io/v2.0/history/daily?";
+  const weatherBitSecondUrl = "https://api.weatherbit.io/v2.0/current?";
   const weatherbitApiKey = process.env.weatherbitApiKey;
 
   // start apis query
@@ -240,8 +243,8 @@ app.post('/weatherInfo', (req, res) => {
     .then(data => {
       longitude = data.postalcodes[0].lng;
       lattitude = data.postalcodes[0].lat;
-      bitUrlHistory = weatherbitBaseUrl + "lat=" + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;   //get histroical weather data
-      bitUrlCurrent = weatherBitSecondUrl + "lat=" + lattitude + "&lon=" + longitude + weatherbitApiKey;   //get current weather data
+      bitUrlHistory = weatherbitBaseUrl + "lat=" + lattitude + "&lon=" + longitude + "&start_date="+ start + "&end_date=" + end + "&key=" + weatherbitApiKey;   //get histroical weather data
+      bitUrlCurrent = weatherBitSecondUrl + "lat=" + lattitude + "&lon=" + longitude + "&key=" + weatherbitApiKey;   //get current weather data
       Promise.all([
         fetch(bitUrlHistory).then(value => value.json()),
         fetch(bitUrlCurrent).then(value => value.json())
@@ -253,8 +256,8 @@ app.post('/weatherInfo', (req, res) => {
     })
     .catch(function(error){
       console.log("Geoname did not find a relevant data!");
-      bitUrlHistory = weatherbitBaseUrl + "city=" + city + "&country=" + country + "&start_date="+ start + "&end_date=" + end + weatherbitApiKey;
-      bitUrlCurrent = weatherBitSecondUrl + "city=" + city + "&country=" + country + weatherbitApiKey;
+      bitUrlHistory = weatherbitBaseUrl + "city=" + city + "&country=" + country + "&start_date="+ start + "&end_date=" + end + "&key=" + weatherbitApiKey;
+      bitUrlCurrent = weatherBitSecondUrl + "city=" + city + "&country=" + country + "&key=" + weatherbitApiKey;
       Promise.all([
         fetch(bitUrlHistory).then(value => value.json()),
         fetch(bitUrlCurrent).then(value => value.json())

@@ -25,8 +25,8 @@ function handleRemoveBtn(e) {
   localStorage.setItem('departs', JSON.stringify(Info.departDatesArray));
   localStorage.setItem('returns', JSON.stringify(Info.returnDatesArray));
   localStorage.setItem('countdowns', JSON.stringify(Info.countdownArray));
-  
-  fetch('http://localhost:3000/travelInfo-ejs', {
+
+  fetch('/travelInfo-ejs', {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
@@ -56,7 +56,7 @@ function handleWeatherBtn(e) {
       date = Info.departDatesArray[i];
     }
   }
-  postForm("http://localhost:3000/weatherInfo", {
+  postForm("/weatherInfo", {
       cityName: city,
       countryName: country,
     })
