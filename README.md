@@ -2,17 +2,12 @@
 This project develops a website that can be used to choose a destination and find relevant travel information pertaining to that
 location.
 
-## Quick start
-Follow these commands on terminal:
-```java
-1. npm install
-2. npm run build-prod
-3. npm start
-```
-Make sure Node.js is installed already. The program will be running on port 3000.
+## Deployment
+Using Heroku cloud platform, the app url is:
+https://secure-dusk-26305.herokuapp.com/
 
 ## How to use
-On http://localhost:3000
+On https://secure-dusk-26305.herokuapp.com/
 1. Enter a destination
 2. Choose the departue and return dates
 3. Press '+Add to list'
@@ -20,11 +15,22 @@ On http://localhost:3000
 5. Press 'View my list' to view/remove your chosen destinations
 6. Press 'Travel info >>' to proceed to the '/travelInfo' endpoint
 
-On http://localhost:3000/travelInfo
+On https://secure-dusk-26305.herokuapp.com/travelInfo
 1. Press 'Weather info' to check the relevant weather information
 2. Press 'Hotel info' to check the relevant hotel information (not completed yet)
 3. Press' Remove trip' if you wish to remove your selection
 4. You can return back to the homepage at all times by pressing 'Return to home' link on top of the page
+
+## Quick start
+Follow these commands on terminal ro run the app locally. Please note that the API keys are confidential and have not been provided. 
+Therefore, API calls are not functioning unless you use your own API keys and store them in a '.env' file.
+
+```java
+1. npm install
+2. npm run build-prod
+3. npm start
+```
+Make sure Node.js is installed already. The program will be running on port 3000.
 
 ## List of APIs used
 1. Google Places
