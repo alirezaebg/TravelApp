@@ -28,7 +28,7 @@ req.keys().forEach(function(key){
 const dest_box = document.getElementById('destination-text');
 dest_box.addEventListener('input', citySearch);
 // Event listener for the travel info button
-$(".btn-lookUp").click(lookupHandler);
+$(".btn-lookUp").on('click touchstart', lookupHandler);
 
 /* event listeners from 'dom.js'*/
 //******************************************************************
@@ -61,16 +61,19 @@ headerTabs.forEach(heading => {
 });
 
 // On click event close the auto complete box for city suggestion
-document.addEventListener("click", function(e) {
+document.addEventListener("click", closeAll);
+document.addEventListener("touchstart", closeAll);
+
+function closeAll(e) {
   closeAutoList(e.target);
   closeTravelList(e.target);
-});
+}
 
 // event listner for '+Add to list' button
-$(".btn-addToList").click(addNewEntry);
+$(".btn-addToList").on('click touchstart', addNewEntry);
 
 // event listener for 'View my list' button
-$("#addBtn").click(handleViewMyList);
+$("#addBtn").on('click touchstart', handleViewMyList);
 
 // event listener to update the values of countdowns
 window.onbeforeunload = updateValues;

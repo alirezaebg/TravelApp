@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
 //event listener for remove button
 allRemoveBtns.forEach(inp => {
   inp.addEventListener("click", handleRemoveBtn);
+  inp.addEventListener("touchstart", handleRemoveBtn);
 });
 // event listener for the weather info button
 document.querySelectorAll('.weather-btn').forEach(inp => {
   inp.addEventListener("click", handleWeatherBtn);
+  inp.addEventListener("touchstart", handleWeatherBtn);
 })
 
 export {
